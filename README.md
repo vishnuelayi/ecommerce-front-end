@@ -28,7 +28,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/vishnuelayi/tshirt-app-front-end.git
+git clone https://github.com/vishnuelayi/ecommerce-front-end.git
 Install dependencies:
 
 bash
