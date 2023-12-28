@@ -37,7 +37,7 @@ const Header = () => {
                 <input
                   type="text"
                   className="form-control py-2"
-                //   style={{ marginLeft: "20px" }}
+                  //   style={{ marginLeft: "20px" }}
                   placeholder="Search Product Here..."
                   aria-label="Search Product Here..."
                   aria-describedby="basic-addon2"
@@ -50,7 +50,10 @@ const Header = () => {
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                  <Link className="d-flex align-items-center text-white gap-10" to="#">
+                  <Link
+                    className="d-flex align-items-center text-white gap-10"
+                    to="#"
+                  >
                     <img src="/images/compare.svg" alt="compare" />
                     <p className="mb-0">
                       Compare <br /> Products
@@ -58,7 +61,10 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center text-white gap-10" to="#">
+                  <Link
+                    className="d-flex align-items-center text-white gap-10"
+                    to="#"
+                  >
                     <img src="/images/wishlist.svg" alt="wishlist" />
                     <p className="mb-0">
                       Favourite <br /> Wishlist
@@ -66,7 +72,10 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center text-white gap-10" to="#">
+                  <Link
+                    className="d-flex align-items-center text-white gap-10"
+                    to="#"
+                  >
                     <img src="/images/user.svg" alt="account" />
                     <p className="mb-0">
                       Login
@@ -76,7 +85,10 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center text-white gap-10" to="#">
+                  <Link
+                    className="d-flex align-items-center text-white gap-10"
+                    to="#"
+                  >
                     <img src="/images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column">
                       <span className="badge bg-white text-dark">0</span>
@@ -90,18 +102,60 @@ const Header = () => {
         </div>
       </header>
       <header className="header-lower py-3">
-     <div className="container-xxl">
-     <div className="row">
-        <div className="col-12">
-            <div className="menu-bottom d-flex align-items-center">
-            <div>
-
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12">
+              <div className="menu-bottom d-flex align-items-center gap-30">
+                <div>
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                    <img src="/images/menu.svg" alt="menu" />
+                      <span className="me-5 d-inline-block">Categories</span>
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item text-white" to="#">
+                          Plain
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item text-white" to="#">
+                          Printed
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item text-white" to="#">
+                          Pattern
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="menu-links">
+                  <div className="d-flex align-items-center gap-15">
+                    <NavLink to="/home" className="text-white">
+                      Home
+                    </NavLink>
+                    <NavLink to="/store" className="text-white">
+                      Our Store
+                    </NavLink>
+                    <NavLink to="/blogs" className="text-white">
+                      Blogs
+                    </NavLink>
+                    <NavLink to="/contact" className="text-white">
+                      Contact
+                    </NavLink>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            </div>
+          </div>
         </div>
-     </div>
-     </div>
       </header>
     </>
   );
