@@ -1,164 +1,282 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import Marquee from "react-fast-marquee";
+import BlogCard from "./BlogCard";
+import ProductCard from "./ProductCard";
 
-const Header = () => {
+const Home = () => {
   return (
     <>
-      <header className="header-top-strip py-3">
+      <section className="home-wrapper-1 py-5">
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              <p className="text-white mb-0">
-                Free shipping on all orders above ₹1000
-              </p>
+              <div className="main-banner position-relative p-3">
+                <img
+                  src="images/main-banner.jpeg"
+                  alt="main-banner"
+                  className="img-fluid rounded-3"
+                />
+                <div className="main-banner-content position-absolute">
+                  <h3>Classic Summer</h3>
+                  <p>₹350 Onwards*</p>
+                  <Link className="button">BUY NOW</Link>
+                </div>
+              </div>
             </div>
             <div className="col-6">
-              <p className="text-end text-white mb-0">
-                Helpline:
-                <a className="text-white" href="tel:+9856742566">
-                  +9104587 548 778
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
-      <header className="header-upper py-3">
-        <div className="container-xxl">
-          <div className="row align-items-center">
-            <div className="col-2">
-              <h2>
-                <Link className="text-white">Creative.</Link>
-              </h2>
-            </div>
-            <div className="col-5">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  //   style={{ marginLeft: "20px" }}
-                  placeholder="Search Product Here..."
-                  aria-label="Search Product Here..."
-                  aria-describedby="basic-addon2"
-                />
-                <span className="input-group-text" id="basic-addon2">
-                  <BsSearch className="fs-6" />
-                </span>
-              </div>
-            </div>
-            <div className="col-5">
-              <div className="header-upper-links d-flex align-items-center justify-content-between">
-                <div>
-                  <Link
-                    className="d-flex align-items-center text-white gap-10"
-                    to="#"
-                  >
-                    <img src="/images/compare.svg" alt="compare" />
-                    <p className="mb-0">
-                      Compare <br /> Products
-                    </p>
-                  </Link>
+              <div className="d-flex flex-wrap justify-content-between align-items-center">
+                <div className="small-banner position-relative p-3">
+                  <img
+                    src="images/plain.jpeg"
+                    alt="main-banner"
+                    className="img-fluid rounded-3"
+                  />
+                  <div className="small-banner-content position-absolute">
+                    <h3>Plain</h3>
+                  </div>
                 </div>
-                <div>
-                  <Link
-                    className="d-flex align-items-center text-white gap-10"
-                    to="#"
-                  >
-                    <img src="/images/wishlist.svg" alt="wishlist" />
-                    <p className="mb-0">
-                      Favourite <br /> Wishlist
-                    </p>
-                  </Link>
+
+                <div className="small-banner position-relative p-3">
+                  <img
+                    src="images/printed.jpeg"
+                    alt="main-banner"
+                    className="img-fluid rounded-3"
+                  />
+                  <div className="small-banner-content position-absolute">
+                    <h3>Printed</h3>
+                  </div>
                 </div>
-                <div>
-                  <Link
-                    className="d-flex align-items-center text-white gap-10"
-                    to="#"
-                  >
-                    <img src="/images/user.svg" alt="account" />
-                    <p className="mb-0">
-                      Login
-                      <br />
-                      My Account
-                    </p>
-                  </Link>
+
+                <div className="small-banner position-relative p-3">
+                  <img
+                    src="images/pattern.jpeg"
+                    alt="main-banner"
+                    className="img-fluid rounded-3"
+                  />
+                  <div className="small-banner-content position-absolute">
+                    <h3>Pattern</h3>
+                  </div>
                 </div>
-                <div>
-                  <Link
-                    className="d-flex align-items-center text-white gap-10"
-                    to="#"
-                  >
-                    <img src="/images/cart.svg" alt="cart" />
-                    <div className="d-flex flex-column">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">₹0.00</p>
-                    </div>
-                  </Link>
+
+                <div className="small-banner position-relative p-3">
+                  <img
+                    src="images/oversized.jpeg"
+                    alt="main-banner"
+                    className="img-fluid rounded-3"
+                  />
+                  <div className="small-banner-content position-absolute">
+                    <h3>Oversized</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </header>
-      <header className="header-lower py-3">
+      </section>
+
+      <section className="home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                    <img src="/images/menu.svg" alt="menu" />
-                      <span className="me-5 d-inline-block">Categories</span>
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Plain
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Printed
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Pattern
-                        </Link>
-                      </li>
-                    </ul>
+              <div className="services d-flex align-items-center justify-content-between flex-wrap justify-content-between">
+                <div className="d-flex align-items-center gap-15">
+                  <img src="images/service.png" alt="service" />
+                  <div>
+                    <h6>Free Shipping</h6>
+                    <p className="mb-0">From all orders above ₹1000</p>
                   </div>
                 </div>
-                <div className="menu-links">
-                  <div className="d-flex align-items-center gap-15">
-                    <NavLink to="/home" className="text-white">
-                      Home
-                    </NavLink>
-                    <NavLink to="/store" className="text-white">
-                      Our Store
-                    </NavLink>
-                    <NavLink to="/blogs" className="text-white">
-                      Blogs
-                    </NavLink>
-                    <NavLink to="/contact" className="text-white">
-                      Contact
-                    </NavLink>
+
+                <div className="d-flex align-items-center gap-15">
+                  <img src="images/service-02.png" alt="service" />
+                  <div>
+                    <h6>Daily Surprise Offers</h6>
+                    <p className="mb-0">Save upto 25%</p>
+                  </div>
+                </div>
+
+                <div className="d-flex align-items-center gap-15">
+                  <img src="images/service-03.png" alt="service" />
+                  <div>
+                    <h6>Support 24/7</h6>
+                    <p className="mb-0">Shop with an expert</p>
+                  </div>
+                </div>
+
+                <div className=" d-flex align-items-center gap-15">
+                  <img src="images/service-04.png" alt="service" />
+                  <div>
+                    <h6>Affordable Prices</h6>
+                    <p className="mb-0">Get Factory Default Price</p>
+                  </div>
+                </div>
+
+                <div className="d-flex align-items-center gap-15">
+                  <img src="images/service-05.png" alt="service" />
+                  <div>
+                    <h6>Secure Payment</h6>
+                    <p className="mb-0">100% Protected Payment</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </section>
+
+      <section className="home-wrapper-2 py-5">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12">
+              <div className="categories d-flex align-items-center flex-wrap justify-content-between">
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/camera.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Smart Tv</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/tv.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Home Appliences</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/homeapp.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Headphone</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/headphone.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/camera.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Smart Tv</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/tv.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Home Appliences</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/homeapp.jpg" alt="categories" />
+                </div>
+
+                <div className="d-flex gap-30 align-items-center">
+                  <div>
+                    <h6>Headphone</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/headphone.jpg" alt="categories" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="marquee-wrapper py-5">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12">
+              <div className="marquee-inner-wrapper card-wrapper">
+                <Marquee className="d-flex">
+                <div className="mx-4 w-25">
+                  <img src="images/brand-01.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-02.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-03.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-04.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-05.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-06.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-07.png" alt="marquee" />
+                </div>
+
+                <div className="mx-4 w-25">
+                  <img src="images/brand-08.png" alt="marquee" />
+                </div>
+                </Marquee>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="blog-wrapper py-5 home-wrapper-2">
+      <div className="container-xxl">
+      <div className="row">
+      <div className="col-12">
+      <h3 className="section-title">Featured Collection</h3>
+      </div>
+      <ProductCard/>
+      <ProductCard/>
+      <ProductCard/>
+      <ProductCard/>
+      
+      </div>
+      </div>
+
+      </section>
+
+      <section className="blog-wrapper py-5 home-wrapper-2">
+      <div className="container-xxl">
+      <div className="row">
+      <div className="col-12">
+      <h3 className="section-title">Our Letest Blogs</h3>
+      </div>
+      <BlogCard/>
+      <BlogCard/>
+      <BlogCard/>
+      <BlogCard/>
+      </div>
+      </div>
+
+      </section>
+
+
     </>
   );
 };
 
-export default Header;
+export default Home;
