@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactStars from 'react-rating-stars-component'
 import { Link, useLocation } from 'react-router-dom'
-import prodcompare from "../images/prodcompare.svg"
-import wish from "../images/wish.svg"
+// import prodcompare from "../images/prodcompare.svg"
+// import wish from "../images/wish.svg"
 
-import watch from "../images/watch.jpg"
-import watch2 from "../images/watch.avif"
-import addcart from "../images/add-cart.svg"
-import view from "../images/view.svg"
+// import watch from "../images/watch.jpg"
+// import watch2 from "../images/watch.avif"
+// import addcart from "../images/add-cart.svg"
+// import view from "../images/view.svg"
 const ProductCard = (props) => {
     const{grid} = props;
     // console.log(grid)
@@ -28,11 +28,11 @@ const ProductCard = (props) => {
          }`} 
          className="product-card position-relative">
             <div className="wishlist-icon position-absolute">
-                <button className='border-0 bg-transparent'><img src={wish} alt="wishlist" /> </button>
+                <button className='border-0 bg-transparent'><img src="images/wish.svg" alt="wishlist" /> </button>
             </div>
             <div className="product-image">
-                <img src={watch} className='img-fluid' alt="product img" />
-                <img src={watch2} className='img-fluid' alt="product img" />
+                <img src="images/watch.jpg" className='img-fluid' alt="product img" />
+                <img src="images/watch.avif" className='img-fluid' alt="product img" />
             </div>
             <div className="product-details">
                 <h6 className="brand"> Havels
@@ -58,13 +58,13 @@ const ProductCard = (props) => {
                 <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
             <button className='border-0 bg-transparent'>
-                <img src={prodcompare} alt="compare" />
+                <img src="images/prodcompare.svg" alt="compare" />
             </button>
             <button className='border-0 bg-transparent'>
-                <img src={view} alt="view" />
+                <img src="images/view.svg" alt="view" />
                 </button>
             <button className='border-0 bg-transparent'>
-                <img src={addcart} alt="addcart" />
+                <img src="images/add-cart.svg" alt="addcart" />
             </button>
             
           </div>
@@ -82,11 +82,11 @@ const ProductCard = (props) => {
          }`} 
          className="product-card position-relative">
             <div className="wishlist-icon position-absolute">
-                <Link><img src={wish} alt="wishlist" /> </Link>
+                <Link><img src="images/wish.svg" alt="wishlist" /> </Link>
             </div>
             <div className="product-image">
-                <img src={watch} className='img-fluid' alt="product img" />
-                <img src={watch2} className='img-fluid' alt="product img" />
+                <img src="images/watch.jpg" className='img-fluid' alt="product img" />
+                <img src="images/watch.avif" className='img-fluid' alt="product img" />
             </div>
             <div className="product-details">
                 <h6 className="brand"> Havels
@@ -112,13 +112,13 @@ const ProductCard = (props) => {
                 <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
             <Link>
-                <img src={prodcompare} alt="compare" />
+                <img src="images/prodcompare.svg" alt="compare" />
             </Link>
             <Link>
-                <img src={view} alt="view" />
+                <img src="images/view.svg" alt="view" />
             </Link>
             <Link>
-                <img src={addcart} alt="addcart" />
+                <img src="images/add-cart.svg" alt="addcart" />
             </Link>
             
           </div>

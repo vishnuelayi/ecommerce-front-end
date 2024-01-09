@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { BiArrowBack } from "react-icons/bi"
-import watch from '../images/watch.jpg';
+// import watch from '../images/watch.jpg';
 import Container from '../components/Container';
 const Checkout = () => {
   return (
@@ -79,7 +79,7 @@ const Checkout = () => {
                     <div className='w-75 d-flex gap-10'>
                       <div className='w-25 position-relative'>
                         <span style={{top:"-10px", right: "2px"}} className="badge bg-secondary test-white rounded-circle p-2 position-absolute">1</span>
-                        <img className="img-fluid" src={watch} alt="product" />
+                        <img className="img-fluid" src="/images/watch.jpg" alt="product" />
                       </div>
                       <div>
                         <h5  className='total-price' >gtfghghj</h5>

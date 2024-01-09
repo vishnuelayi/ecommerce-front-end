@@ -1,8 +1,8 @@
 import React from 'react'
 import {NavLink, Link} from 'react-router-dom'
 import {BsSearch} from  'react-icons/bs'
-import cart from '../images/cart.svg'
-import user from '../images/user2.svg'
+// import cart from '../images/cart.svg'
+// import user from '../images/user2.svg'
 const Header = () => {
   return (
   <>
@@ -58,13 +58,13 @@ const Header = () => {
           </div>
           <div>
           <Link to='/login' className='d-flex align-items-center gap-10  text-white'>
-          <img src={user} alt="User" />
+          <img src="images/user2.svg"  alt="User" />
           <p className="mb-0">Login <br /> My Account </p>
             </Link>
           </div>
           <div>
             <Link to='/cart' className='d-flex align-items-center gap-10 text-white'>
-            <img src={cart} alt="cart" />
+            <img src="images/cart.svg"  alt="cart" />
               <div className="d-flex flex-column">
                 <span className="badge bg-white text-dark">0</span>
               <p className="mb-0">$500</p>
