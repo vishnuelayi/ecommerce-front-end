@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrumb from '../components/BreadCrumb'
 import Meta from '../components/Meta'
 import ReactStars from 'react-rating-stars-component'
 import ProductCard from '../components/ProductCard'
 import Color from '../components/Color'
 import Container from '../components/Container'
+import { useDispatch } from 'react-redux'
+import { getProducts } from '../features/products/productsSlice'
 
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getProducts())
+  },[])
+
   return (
    <>
     <Meta title={"Our Store"}/>
