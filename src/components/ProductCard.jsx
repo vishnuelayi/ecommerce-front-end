@@ -12,7 +12,7 @@ const ProductCard = (props) => {
   const dispatch = useDispatch();
 
   const addTtoWlist = (id) => {
-    console.log(id);
+    // console.log(id);
     dispatch(addToWhishList(id));
   };
 

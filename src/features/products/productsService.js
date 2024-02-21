@@ -31,7 +31,7 @@ const addToWhishList = async (productId) => {
         },
       }
     );
-    console.log(response);
+    
     return response.data;
     
   } catch (error) {
