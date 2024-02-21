@@ -5,7 +5,7 @@ import ReactStars from 'react-rating-stars-component'
 import ProductCard from '../components/ProductCard'
 import Color from '../components/Color'
 import Container from '../components/Container'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../features/products/productsSlice'
 
 
@@ -13,6 +13,9 @@ const OurStore = () => {
   const [grid, setGrid] = useState(4);
 
   const dispatch = useDispatch()
+
+  const productsState = useSelector((state) => state.products.products)
+  // console.log(productsState);
 
   useEffect(() => {
     dispatch(getProducts())
@@ -157,7 +160,7 @@ const OurStore = () => {
               </select>
             </div> 
             <div className="d-flex align-items-center gap-10">
-              <p className="totalproducts mb-0">21 Products</p>
+              <p className="totalproducts mb-0">{productsState.length} Products</p>
               <div className="d-flex gap-10 align-items-center grid">
               <img onClick={()=>{setGrid(3);}} src="images/gr4.svg" className='d-block img-fluid' alt="grid" />
               <img onClick={()=>{setGrid(4);}} src="images/gr3.svg" className='d-block img-fluid' alt="grid" />
@@ -169,7 +172,10 @@ const OurStore = () => {
           </div>
           <div className="products-list pb-5">
             <div className="d-flex gap-10 flex-wrap">
-            <ProductCard grid={grid} />
+            {productsState.map((item, index) => {
+              return <ProductCard data={item} grid={grid} key={index}/>
+            })}
+            
             </div>
           </div>
         </div>
