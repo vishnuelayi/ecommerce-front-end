@@ -1,5 +1,8 @@
 import axios from "axios";
 import { base_url } from "../../utils/base-url";
+import { Token } from "../../utils/tokenConfig";
+
+const token = Token()
 
 
 const loginUser = async (data) => {
@@ -26,5 +29,20 @@ return response.data;
     }
 }
 
-const authService = {registerUser, loginUser}
+const getWishList = async() => {
+  try{
+const response = await axios.get(`${base_url}user/wishlist/`, {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
+})
+return response.data;
+  }
+  catch(error){
+throw new Error(error)
+  }
+}
+
+const authService = {registerUser, loginUser, getWishList}
 export default authService;

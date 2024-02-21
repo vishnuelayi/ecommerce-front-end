@@ -35,14 +35,14 @@ const ProductCard = (props) => {
         >
           <div className="wishlist-icon position-absolute">
             <Link>
-            <button className=" border-0 bg-transparent" onClick={(e) => addTtoWlist(data._id)}> 
+            <button className=" border-0 bg-transparent" onClick={(e) => addTtoWlist(data?._id)}> 
             <img src="images/wish.svg" alt="wishlist" />{" "}
             </button>
              
             </Link>
           </div>
           <div className="product-image">
-            <img src={data.images[0]} className="img-fluid" alt="product img" />
+            <img src={data?.images[0]} className="img-fluid" alt="product img" />
             <img
               src="images/watch.avif"
               className="img-fluid"
@@ -51,8 +51,8 @@ const ProductCard = (props) => {
           </div>
 
           <div className="product-details">
-            <h6 className="brand"> {data.brand}</h6>
-            <h5 className="product-title">{data.title}</h5>
+            <h6 className="brand"> {data?.brand}</h6>
+            <h5 className="product-title">{data?.title}</h5>
             <ReactStars
               count={5}
               size={24}
@@ -61,9 +61,9 @@ const ProductCard = (props) => {
               activeColor="#ffd700"
             />
             <p className={`description ${grid === 12 ? "d-block" : "d-none"}`}>
-              {data.description}
+              {data?.description}
             </p>
-            <p className="price">₹{data.price}</p>
+            <p className="price">₹{data?.price}</p>
           </div>
           <div className="action-bar position-absolute">
             <div className="d-flex flex-column gap-15">
