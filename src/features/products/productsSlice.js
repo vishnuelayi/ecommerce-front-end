@@ -22,6 +22,18 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const addToWhishList = createAsyncThunk(
+  "product/addtowishlist",
+  async (prodId, thunkAPI) => {
+    try {
+      const response = await productsService.addToWhishList(prodId);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -36,7 +48,6 @@ export const productsSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.products = action.payload;
-      
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.products = [];
@@ -44,18 +55,23 @@ export const productsSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
-        if (state.isError) {
-          toast.error("Something went wrong", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+      })
+      .addCase(addToWhishList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addToWhishList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.addToWishlist = action.payload;
+        state.message= "Added to wishlist"
+      })
+      .addCase(addToWhishList.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+        
       });
   },
 });
