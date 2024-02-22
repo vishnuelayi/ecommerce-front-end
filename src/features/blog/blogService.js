@@ -19,7 +19,19 @@ const getBlogs = async () => {
   }
 };
 
+const getAblog = async(id) => {
+    try{
+        const response = await axios.get(`${base_url}blog/${id}`)
+        if(response)
+        {
+            return response.data;
+        }
+    }
+    catch(error)
+    {
+        throw new Error(error)
+    }
+}
 
-
-const blogService = { getBlogs};
+const blogService = { getBlogs, getAblog };
 export default blogService;

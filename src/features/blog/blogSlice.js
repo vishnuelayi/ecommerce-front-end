@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import blogService from "./blogService";
 
-
 const initialState = {
   blogs: [],
   isLoading: false,
@@ -10,19 +9,28 @@ const initialState = {
   message: "",
 };
 
-export const getBlogs = createAsyncThunk(
-  "blog/all-blogs",
-  async (thunkAPI) => {
+//for fetching all the blogs
+export const getBlogs = createAsyncThunk("blog/all-blogs", async (thunkAPI) => {
+  try {
+    const response = await blogService.getBlogs();
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+//for fetching a particular blog
+export const getABlog = createAsyncThunk(
+  "blog/single-blog",
+  async (id, thunkAPI) => {
     try {
-      const response = await blogService.getBlogs();
+      const response = await blogService.getAblog(id);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
-
-
 
 export const blogSlice = createSlice({
   name: "blogs",
@@ -46,7 +54,22 @@ export const blogSlice = createSlice({
         state.isLoading = false;
         state.message = action.payload.message;
       })
-      
+      .addCase(getABlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getABlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.singleBlog = action.payload;
+      })
+      .addCase(getABlog.rejected, (state, action) => {
+        state.singleBlog = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+      });
   },
 });
 

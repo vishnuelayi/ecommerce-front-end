@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BlogCard = (props) => {
   const { data } = props;
-  console.log(data);
+  // console.log(data);
 
   return (
     <div >

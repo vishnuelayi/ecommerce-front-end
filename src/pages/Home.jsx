@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Marquee from "react-fast-marquee";
 import BlogCard from '../components/BlogCard';
@@ -6,7 +6,17 @@ import ProductCard from '../components/ProductCard';
 import SpecialProducts from '../components/SpecialProducts';
 import Container from '../components/Container';
 import {services} from "../utils/Data"
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs } from '../features/blog/blogSlice';
+
 const Home = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getBlogs())
+  },[])
+
+  const blogState = useSelector((state) => state.blogs.blogs)
   return (
     <>
     <Container class1="home-wrapper-1 py-5">
@@ -276,18 +286,11 @@ const Home = () => {
             </div>
           </div>
        <div className="row">
+
         <div className="col-3">
-        <BlogCard />
+        <BlogCard data={blogState} />
         </div>
-        <div className="col-3">
-        <BlogCard />
-        </div>
-        <div className="col-3">
-        <BlogCard />
-        </div>
-        <div className="col-3">
-        <BlogCard />
-        </div>
+        
        </div>
     </Container>
     </>
