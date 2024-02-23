@@ -1,7 +1,7 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { addToWhishList } from "../features/products/productsSlice";
 
 const ProductCard = (props) => {
@@ -23,20 +23,13 @@ const ProductCard = (props) => {
           location.pathname === "/product" ? `gr-${grid}` : "col-3"
         }`}
       >
-        <Link
-          to={`${
-            location.pathname === "/"
-              ? "/product/:id"
-              : location.pathname === "/product/:id"
-              ? "/product/:id"
-              : ":id"
-          }`}
+        <div
           className="product-card position-relative"
         >
           <div className="wishlist-icon position-absolute">
             <Link>
             <button className=" border-0 bg-transparent" onClick={(e) => addTtoWlist(data?._id)}> 
-            <img src="images/wish.svg" alt="wishlist" />{" "}
+            <img src="images/wish.svg" alt="wishlist" />
             </button>
              
             </Link>
@@ -70,7 +63,7 @@ const ProductCard = (props) => {
               <Link>
                 <img src="images/prodcompare.svg" alt="compare" />
               </Link>
-              <Link>
+              <Link to={"/product/" + data?._id}>
                 <img src="images/view.svg" alt="view" />
               </Link>
               <Link>
@@ -78,7 +71,7 @@ const ProductCard = (props) => {
               </Link>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </>
   );

@@ -173,7 +173,7 @@ const OurStore = () => {
           <div className="products-list pb-5">
             <div className="d-flex gap-10 flex-wrap">
             {productsState.map((item, index) => {
-              return <ProductCard data={item} grid={grid} key={index}/>
+              return <ProductCard data={item} grid={grid} key={index} />
             })}
             
             </div>

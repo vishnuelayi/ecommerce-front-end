@@ -195,10 +195,11 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState.map((item, index) => {
+            if (index < 4) {
+              return <ProductCard data={item} key={index} />;
+            }
+          })}
         </div>
       </Container>
       <Container class1="famous-wrapper py-5 home-wrapper-2">
@@ -273,7 +274,7 @@ const Home = () => {
         </div>
         <div className="row">
           {productState?.map((item, index) => {
-            if (index < 3) {
+            if (index < 2) {
               return (
                 <SpecialProducts
                   key={index}
@@ -294,10 +295,9 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState.map((item, index) => {
+            return <ProductCard data={item} key={index} />;
+          })}
         </div>
       </Container>
       <Container class1="marquee-wrapper home-wrapper-2 py-5">

@@ -12,9 +12,6 @@ const Wishlist = () => {
     dispatch(getwishlist());
   }, []);
 
-  const removeFromWL = (id) => {
-    dispatch(addToWhishList(id))
-  }
 
   const wishList = useSelector((state) => state.auth.wishlist);
 
@@ -26,7 +23,7 @@ const Wishlist = () => {
         <div className="container-xxl">
           <div className="row">
           {
-           wishList.length === 0 && <div className="text-center">Wishlist is empty</div>
+           wishList?.length === 0 && <div className="text-center">Wishlist is empty</div>
           }
             {wishList?.map((item, index) => {
               return (
@@ -36,7 +33,7 @@ const Wishlist = () => {
                       src="images/cross.svg"
                       alt="cross"
                       className="position-absolute cross img-fluid"
-                      onClick={(e) => removeFromWL(item._id)}
+                      
                     />
                     <div className="wishlist-card-image">
                       <img
