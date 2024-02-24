@@ -19,6 +19,22 @@ const getProducts = async () => {
   }
 };
 
+const getAProduct = async(id) => {
+  try{
+    const response = await axios.get(`${base_url}product/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    return response?.data;
+  }
+  catch(error)
+  {
+    throw new Error(error);
+  }
+}
+
 const addToWhishList = async (productId) => {
   try {
     const response = await axios.put(
@@ -39,5 +55,5 @@ const addToWhishList = async (productId) => {
   }
 };
 
-const productsService = { getProducts, addToWhishList };
+const productsService = { getProducts, addToWhishList,getAProduct };
 export default productsService;
