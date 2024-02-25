@@ -47,6 +47,18 @@ export const addToWhishList = createAsyncThunk(
   }
 );
 
+export const addToCart = createAsyncThunk(
+  "product/addtocart",
+  async (data, thunkAPI) => {
+    try {
+      const response = await productsService.addToCart(data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -96,7 +108,8 @@ export const productsSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
-      }).addCase(getAproduct.pending, (state) => {
+      })
+      .addCase(getAproduct.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getAproduct.fulfilled, (state, action) => {
@@ -112,6 +125,23 @@ export const productsSlice = createSlice({
         state.isLoading = false;
         state.message = action.payload.message;
       })
+      .addCase(addToCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Added to cart");
+        }
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+      });
   },
 });
 

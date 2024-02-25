@@ -10,7 +10,8 @@ import {AiOutlineHeart} from 'react-icons/ai'
 import Container from '../components/Container'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAproduct } from '../features/products/productsSlice'
+import { addToCart, getAproduct } from '../features/products/productsSlice'
+import { toast } from 'react-toastify'
 
 const SingleProduct = () => {
 
@@ -29,7 +30,10 @@ const SingleProduct = () => {
   console.log(singleProdState);
 
 
-
+  const [quantity, setQuantity] = useState(null)
+  console.log(quantity);
+  const [color, setColor] = useState(null)
+  console.log(color);
   const props = { width: 400, height: 600, zoomWidth: 600, img:singleProdState?.images[0] ? singleProdState?.images[0] :"https://eas-tech.net/wp-content/uploads/dummy-post-horisontal.jpg"};
   const [orderedProduct] = useState(true);
   const copyToClipboard = (text) => {
@@ -117,15 +121,31 @@ const SingleProduct = () => {
                           </div>
                         <div className="d-flex gap-10 flex-column mt-2 mb-3">
                           <h3 className='product-heading'>Color :</h3>
-                          <Color />
+                          <Color colorData = {singleProdState?.color} setColor={setColor}/>
                           </div>
                         <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                           <h3 className='product-heading'>Quantity :</h3>
                           <div className="">
-                                <input type="number" name='' min={1} max={10} className='form-control' style={{ width: "70px"}} id='' />
+                                <input type="number" value={quantity} name='' min={1} max={10} className='form-control' style={{ width: "70px"}} id='' onChange={(e) => {
+                                  setQuantity(e.target.value)
+                                }} />
                           </div>
                           <div className='d-flex align-items-center gap-30 ms-5'>
-                            <button className="button border-0" type="submit">Add to Cart
+                            <button className="button border-0" type="submit" onClick={() => {
+                              if(color === null)
+                              {
+                                toast.error("Please select color")
+                              }
+                              else
+                              {
+                                dispatch(addToCart({
+                                  productId:singleProdState?._id,
+                                  quantity,
+                                  color,
+                                  price:singleProdState?.price
+                                }))
+                              }
+                            }}>Add to Cart
                             </button>
                             <button className="button signup">
                                   Buy It Now

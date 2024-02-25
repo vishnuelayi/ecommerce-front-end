@@ -55,5 +55,25 @@ const addToWhishList = async (productId) => {
   }
 };
 
-const productsService = { getProducts, addToWhishList,getAProduct };
+const addToCart = async (data) => {
+  try {
+    const response = await axios.post(
+      `${base_url}user/cart/`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    return response.data;
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const productsService = { getProducts, addToWhishList,getAProduct, addToCart };
 export default productsService;
