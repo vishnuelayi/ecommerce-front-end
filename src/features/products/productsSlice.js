@@ -59,6 +59,15 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+export const getCart = createAsyncThunk("product/getcart", async (thunkAPI) => {
+  try {
+    const response = await productsService.getCart();
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -132,11 +141,31 @@ export const productsSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.cartItem = action.payload;
         if (state.isSuccess) {
           toast.success("Added to cart");
         }
       })
       .addCase(addToCart.rejected, (state, action) => {
+        state.cartItem = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+      })
+      .addCase(getCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.cartProducts = action.payload;
+        
+     
+      })
+      .addCase(getCart.rejected, (state, action) => {
+        state.cartProducts = []
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;
