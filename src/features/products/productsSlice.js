@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productsService from "./productsService";
 import { toast } from "react-toastify";
 
+
 const initialState = {
   products: [],
   isLoading: false,
@@ -67,6 +68,30 @@ export const getCart = createAsyncThunk("product/getcart", async (thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
+
+export const deleteOneProductCart = createAsyncThunk(
+  "product/delete-procart",
+  async (id, thunkAPI) => {
+    try {
+      const response = await productsService.deleteOneProd(id);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateQuantityCart = createAsyncThunk(
+  "product/update-proquantity",
+  async (cartDetails, thunkAPI) => {
+    try {
+      const response = await productsService.updateQuantityCart(cartDetails);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const productsSlice = createSlice({
   name: "products",
@@ -161,15 +186,55 @@ export const productsSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.cartProducts = action.payload;
-        
-     
       })
       .addCase(getCart.rejected, (state, action) => {
-        state.cartProducts = []
+        state.cartProducts = [];
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
+      })
+      .addCase(deleteOneProductCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteOneProductCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedProduct = action.payload;
+        if (state.isSuccess) {
+          toast.success("Item Deleted");
+        }
+      })
+      .addCase(deleteOneProductCart.rejected, (state, action) => {
+        state.deletedProduct = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+        if (state.isError) {
+          toast.error("Something Went Wrong");
+        }
+      })
+      .addCase(updateQuantityCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateQuantityCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedItem = action.payload;
+      })
+      .addCase(updateQuantityCart.rejected, (state, action) => {
+        state.updatedItem = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+        if(state.isError)
+        {
+          toast.error("Something Went Wrong")
+        }
       });
   },
 });

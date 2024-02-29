@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 // import watch from '../images/watch.jpg';
@@ -6,17 +6,55 @@ import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "../features/products/productsSlice";
+import {
+  deleteOneProductCart,
+  getCart,
+  updateQuantityCart,
+} from "../features/products/productsSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
+
+  const [productUpdateDetails, setProductUpdateDetails] = useState(null);
+  const [subTotal, setSubTotal] = useState(null);
+
+ 
+
+  useEffect(() => {
+    if (
+      productUpdateDetails &&
+      productUpdateDetails.cartItemId &&
+      productUpdateDetails.quantity
+    ) {
+      dispatch(
+        updateQuantityCart({
+          cartItemId: productUpdateDetails.cartItemId,
+          quantity: productUpdateDetails.quantity,
+        })
+      );
+    }
+  }, [productUpdateDetails]);
+
+  function removeFromCart(id) {
+    dispatch(deleteOneProductCart(id));
+    setTimeout(() => {
+      dispatch(getCart());
+    }, 2000);
+  }
 
   useEffect(() => {
     dispatch(getCart());
   }, []);
 
   const cartProducts = useSelector((state) => state.products.cartProducts);
-  console.log(cartProducts);
+
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < cartProducts.length; index++) {
+      sum = sum + cartProducts[index].price * cartProducts[index].quantity;
+      setSubTotal(sum);
+    }
+  }, [cartProducts]);
 
   return (
     <>
@@ -67,15 +105,30 @@ const Cart = () => {
                         min={1}
                         max={10}
                         id=""
-                        value={item?.quantity}
+                        value={
+                          productUpdateDetails?.quantity
+                            ? productUpdateDetails?.quantity
+                            : item?.quantity
+                        }
+                        onChange={(e) =>
+                          setProductUpdateDetails({
+                            cartItemId: item?._id,
+                            quantity: e?.target?.value,
+                          })
+                        }
                       />
                     </div>
                     <div>
-                      <AiFillDelete className="text-danger" />
+                      <AiFillDelete
+                        className="text-danger"
+                        onClick={() => {
+                          return removeFromCart(item._id);
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="cart-col-4">
-                    <h5 className="price">$ 100</h5>
+                    <h5 className="price">₹{item?.price * item?.quantity}</h5>
                   </div>
                 </div>
               );
@@ -86,13 +139,15 @@ const Cart = () => {
                 <Link to="/product" className="button">
                   Continue Shopping
                 </Link>
-                <div className="d-flex  flex-column align-items-end">
-                  <h4>SubTotal: $ 1000</h4>
-                  <p>Taxes and shipping calculated at checkout</p>
-                  <Link to="/checkout" className="button">
-                    Checkout
-                  </Link>
-                </div>
+                {(subTotal !== 0 || subTotal !== null) && (
+                  <div className="d-flex  flex-column align-items-end">
+                    <h4>SubTotal: ₹{subTotal}</h4>
+                    <p>Taxes and shipping calculated at checkout</p>
+                    <Link to="/checkout" className="button">
+                      Checkout
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

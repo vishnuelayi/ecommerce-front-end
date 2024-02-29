@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {NavLink, Link} from 'react-router-dom'
 import {BsSearch} from  'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCart } from '../features/products/productsSlice'
 // import cart from '../images/cart.svg'
 // import user from '../images/user2.svg'
 const Header = () => {
+
+  const dispatch = useDispatch()
+
+  const [subTotal, setSubTotal] = useState(null)
+  
+useEffect(() => {
+  dispatch(getCart())
+},[])
+
+const cartProducts = useSelector((state) => state.products.cartProducts);
+
+//for showing total cart amount at the cart icon in the top
+useEffect(() => {
+  let sum = 0;
+  for (let index = 0; index < cartProducts?.length; index++) {
+    sum = sum + cartProducts[index]?.price * cartProducts[index]?.quantity;
+    setSubTotal(sum);
+  }
+}, [cartProducts]);
+
+
   return (
   <>
    <header className="header-top-strip py-3">
@@ -66,8 +89,8 @@ const Header = () => {
             <Link to='/cart' className='d-flex align-items-center gap-10 text-white'>
             <img src="images/cart.svg"  alt="cart" />
               <div className="d-flex flex-column">
-                <span className="badge bg-white text-dark">0</span>
-              <p className="mb-0">$500</p>
+                <span className="badge bg-white text-dark">{cartProducts?.length ? cartProducts?.length : 0}</span>
+              <p className="mb-0">₹{subTotal ? subTotal : 0}</p>
               </div>
             </Link>
           </div>

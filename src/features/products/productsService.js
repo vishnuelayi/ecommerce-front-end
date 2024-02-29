@@ -91,5 +91,47 @@ const getCart = async () => {
   }
 };
 
-const productsService = { getProducts, addToWhishList, getAProduct, addToCart, getCart };
+const deleteOneProd = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${base_url}user/delete/${id}`,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const updateQuantityCart = async (cartDetails) => {
+  console.log(cartDetails);
+  try {
+    const response = await axios.put(
+      `${base_url}user/update-cart/${cartDetails.cartItemId}/${cartDetails.quantity}`,
+      {}, // Empty request body
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data.quantity);
+    return response.data;
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+
+const productsService = { getProducts, addToWhishList, getAProduct, addToCart, getCart, deleteOneProd, updateQuantityCart };
 export default productsService;
