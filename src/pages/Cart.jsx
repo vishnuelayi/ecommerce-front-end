@@ -50,7 +50,7 @@ const Cart = () => {
 
   useEffect(() => {
     let sum = 0;
-    for (let index = 0; index < cartProducts.length; index++) {
+    for (let index = 0; index < cartProducts?.length; index++) {
       sum = sum + cartProducts[index].price * cartProducts[index].quantity;
       setSubTotal(sum);
     }
@@ -79,8 +79,8 @@ const Cart = () => {
                     <div className="w-25">
                       <img
                         src={
-                          item.productId.images
-                            ? item.productId.images[0]
+                          item?.productId?.images
+                            ? item?.productId?.images[0]
                             : "https://hyderabadangels.in/wp-content/uploads/2019/11/dummy-logo.png"
                         }
                         className="img-fluid"

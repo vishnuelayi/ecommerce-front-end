@@ -3,7 +3,7 @@ import authService from "./authService";
 import { toast } from "react-toastify";
 
 const initialState = {
-  users: [],
+  users: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -101,7 +101,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.loginedUser = action.payload;
+        state.users = action.payload;
         if (state.isSuccess) {
           toast.success("Login Successfull", {
             position: "bottom-center",

@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 // import watch from '../images/watch.jpg';
 import Container from "../components/Container";
-import { getCart } from "../features/products/productsSlice";
+import { createOrder, getCart } from "../features/products/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "axios";
+import { Token } from "../utils/tokenConfig";
 
 const shippingSchema = yup.object({
   firstName: yup.string().required("First Name is Required"),
@@ -19,6 +21,66 @@ const shippingSchema = yup.object({
 });
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+
+  const [subTotal, setSubTotal] = useState();
+  const [paymentInfo, setPaymentInfo] = useState({
+    razorpayOrderId: "",
+    razorpayPaymentId: "",
+  });
+  const [shippingInfo, setShippingInfo] = useState(null);
+  const [orderItems, setOrderItems] = useState([]);
+  const shippingCost = 150;
+
+  const token = Token();
+
+  
+  //fetching products in the cart
+  useEffect(() => {
+    dispatch(getCart());
+  }, []);
+
+  const cartProducts = useSelector((state) => state.products.cartProducts);
+
+  //all products pushed into the orderItems array for creating an order
+
+  //to find the total cart amount
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < cartProducts?.length; index++) {
+      sum = sum + cartProducts[index].price * cartProducts[index].quantity;
+      setSubTotal(sum);
+    }
+  }, [cartProducts]);
+
+  //payment gatway configuration
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  useEffect(() => {
+    let items = [];
+    for (let index = 0; index < cartProducts?.length; index++) {
+      items.push({
+        product: cartProducts[index]?.productId?._id,
+        color: cartProducts[index]?.color?._id,
+        quantity: cartProducts[index]?.quantity,
+        price: cartProducts[index]?.price,
+      });
+    }
+    setOrderItems(items);
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -28,35 +90,103 @@ const Checkout = () => {
       pin: "",
       state: "",
       country: "",
-      apartment: "",
+      others: "",
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
-      setTimeout(() => {
-        formik.resetForm();
-      }, 2000);
+      setShippingInfo(values);
+      checkoutHandler();
+      
+
+     
     },
   });
 
-  const dispatch = useDispatch();
 
-  const [subTotal, setSubTotal] = useState();
-  const shippingCost = 150;
-
-  useEffect(() => {
-    dispatch(getCart());
-  }, []);
-
-  const cartProducts = useSelector((state) => state.products.cartProducts);
-
-  useEffect(() => {
-    let sum = 0;
-    for (let index = 0; index < cartProducts?.length; index++) {
-      sum = sum + cartProducts[index].price * cartProducts[index].quantity;
-      setSubTotal(sum);
+  const checkoutHandler = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Razorpay SDK failed to load");
+      return;
     }
-  }, [cartProducts]);
+    const result = await axios.post(
+      "http://localhost:5000/api/user/order/checkout",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!result) {
+      alert("Something went wrong");
+      return;
+    }
+    const { amount, id: order_id, currency } = result.data.order;
+
+    const options = {
+      key: "rzp_test_AzgIH0PE6NUeqn",
+      amount: amount,
+      currency: currency,
+      name: "Creative",
+      description: "Test Transaction",
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+        };
+
+        const result = await axios.post(
+          "http://localhost:5000/api/user/order/paymentverification",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setPaymentInfo(result.data);
+
+        console.log(shippingInfo);
+        console.log(paymentInfo);
+
+        if(shippingInfo !== null){
+          dispatch(
+            createOrder({
+              shippingInfo: shippingInfo,
+              paymentInfo: paymentInfo,
+              totalPrice: subTotal,
+              toatalPriceAfterDiscount: subTotal,
+              orderItems,
+            })
+          );
+        }
+          
+       
+      },
+      prefill: {
+        name: "Creative Clothing Inc",
+        email: "creativeclothing@gmail.com",
+        contact: "784-457-875",
+      },
+      notes: {
+        address: "Creative Clothing Pvt Ltd, Kochi, Kerala",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
 
   return (
     <>
@@ -97,7 +227,7 @@ const Checkout = () => {
               </nav>
               <h4 className="title total">Contact Information</h4>
               <p className="user-details total">
-                Patrick Ngure (patrickmangara@gmail.com)
+                Creative Clothing (creativeclothing@gmail.com)
               </p>
               <h4 className="mb-3">Shipping Address</h4>
               <form
@@ -108,7 +238,7 @@ const Checkout = () => {
                 <div className="w-100">
                   <select
                     name="country"
-                    className="form-control form-select is-invalid"
+                    className="form-control form-select"
                     id="countrySelect"
                     onChange={formik.handleChange("country")}
                     onBlur={formik.handleBlur("country")}
@@ -175,13 +305,13 @@ const Checkout = () => {
                     type="text"
                     placeholder="Apartment, Suite, etc(optional)"
                     className="form-control"
-                    name="apartment"
-                    onChange={formik.handleChange("apartment")}
-                    onBlur={formik.handleBlur("apartment")}
-                    value={formik.values.apartment}
+                    name="others"
+                    onChange={formik.handleChange("others")}
+                    onBlur={formik.handleBlur("others")}
+                    value={formik.values.others}
                   />
                   <div className="error ms-2 my-1">
-                    {formik.touched.apartment && formik.errors.apartment}
+                    {formik.touched.others && formik.errors.others}
                   </div>
                 </div>
                 <div className="flex-grow-1">
@@ -223,7 +353,7 @@ const Checkout = () => {
                 </div>
                 <div className="flex-grow-1">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Pincode"
                     className="form-control"
                     name="pin"
@@ -241,7 +371,7 @@ const Checkout = () => {
                       <BiArrowBack className="me-2" /> Return to cart
                     </Link>
                     <button className="button" type="submit">
-                      Place Order
+                      Proceed to Payment
                     </button>
                   </div>
                 </div>

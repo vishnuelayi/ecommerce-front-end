@@ -51,16 +51,16 @@ const SingleProduct = () => {
 
   useEffect(() => {
     for (let index = 0; index < cartProducts?.length; index++) {
-      if (prodId === cartProducts[index].productId._id) {
+      if (prodId === cartProducts[index]?.productId?._id) {
         setAlreadyAdded(true);
       }
     }
   }, []);
 
-  const cartProducts = useSelector((state) => state.products.cartProducts);
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
   console.log(cartProducts);
 
-  const singleProdState = useSelector((state) => state.products.singleProduct);
+  const singleProdState = useSelector((state) => state?.products?.singleProduct);
   console.log(singleProdState);
 
   const [quantity, setQuantity] = useState(null);

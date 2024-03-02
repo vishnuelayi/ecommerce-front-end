@@ -132,6 +132,28 @@ const updateQuantityCart = async (cartDetails) => {
   }
 };
 
+const createOrder = async (orderData) => {
+  console.log(orderData);
+  try {
+    const response = await axios.post(
+      `${base_url}user/cart/create-order`,
+      orderData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-const productsService = { getProducts, addToWhishList, getAProduct, addToCart, getCart, deleteOneProd, updateQuantityCart };
+    console.log(response.data.quantity);
+    return response.data;
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+
+const productsService = { getProducts, addToWhishList, getAProduct, addToCart, getCart, deleteOneProd, updateQuantityCart,createOrder };
 export default productsService;
