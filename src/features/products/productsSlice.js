@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productsService from "./productsService";
 import { toast } from "react-toastify";
 
-
 const initialState = {
   products: [],
   isLoading: false,
@@ -36,6 +35,7 @@ export const getAproduct = createAsyncThunk(
   }
 );
 
+//add a product into wishlist
 export const addToWhishList = createAsyncThunk(
   "product/addtowishlist",
   async (prodId, thunkAPI) => {
@@ -48,6 +48,7 @@ export const addToWhishList = createAsyncThunk(
   }
 );
 
+//add a product into cart
 export const addToCart = createAsyncThunk(
   "product/addtocart",
   async (data, thunkAPI) => {
@@ -60,6 +61,7 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+//fetching cart items of a user
 export const getCart = createAsyncThunk("product/getcart", async (thunkAPI) => {
   try {
     const response = await productsService.getCart();
@@ -69,6 +71,7 @@ export const getCart = createAsyncThunk("product/getcart", async (thunkAPI) => {
   }
 });
 
+//deleting a product from cart
 export const deleteOneProductCart = createAsyncThunk(
   "product/delete-procart",
   async (id, thunkAPI) => {
@@ -81,6 +84,7 @@ export const deleteOneProductCart = createAsyncThunk(
   }
 );
 
+//for updating quantity of a product
 export const updateQuantityCart = createAsyncThunk(
   "product/update-proquantity",
   async (cartDetails, thunkAPI) => {
@@ -93,6 +97,7 @@ export const updateQuantityCart = createAsyncThunk(
   }
 );
 
+//for creating an order
 export const createOrder = createAsyncThunk(
   "product/create-order",
   async (orderData, thunkAPI) => {
@@ -104,6 +109,16 @@ export const createOrder = createAsyncThunk(
     }
   }
 );
+
+//for fetching orders of a particular user
+export const getOrders = createAsyncThunk("myorders", async (thunkAPI) => {
+  try {
+    const response = await productsService.getOrders();
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
 
 export const productsSlice = createSlice({
   name: "products",
@@ -243,9 +258,8 @@ export const productsSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
-        if(state.isError)
-        {
-          toast.error("Something Went Wrong")
+        if (state.isError) {
+          toast.error("Something Went Wrong");
         }
       })
       .addCase(createOrder.pending, (state) => {
@@ -256,9 +270,8 @@ export const productsSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.createdOrder = action.payload;
-        if(state.isSuccess)
-        {
-          toast.success("Order Placed 🎉")
+        if (state.isSuccess) {
+          toast.success("Order Placed 🎉");
         }
       })
       .addCase(createOrder.rejected, (state, action) => {
@@ -267,11 +280,26 @@ export const productsSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
-        if(state.isError)
-        {
-          toast.error("Something Went Wrong")
+        if (state.isError) {
+          toast.error("Something Went Wrong");
         }
       })
+      .addCase(getOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.myOrders = action.payload;
+      })
+      .addCase(getOrders.rejected, (state, action) => {
+        state.myOrders = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+      });
   },
 });
 

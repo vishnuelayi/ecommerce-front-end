@@ -24,6 +24,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import { PrivateRoutes } from "./routing/PrivateRoute";
 import { OpenRoutes } from "./routing/OpenRoutes";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
+            <Route path="myorders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
@@ -46,12 +48,33 @@ function App() {
                 </PrivateRoutes>
               }
             />
-            <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
-            <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
+            <Route
+              path="checkout"
+              element={
+                <PrivateRoutes>
+                  <Checkout />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="wishlist"
+              element={
+                <PrivateRoutes>
+                  <Wishlist />
+                </PrivateRoutes>
+              }
+            />
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<Forgotpassword />} />
-            <Route path="signup" element={<OpenRoutes><Signup /></OpenRoutes>} />
+            <Route
+              path="signup"
+              element={
+                <OpenRoutes>
+                  <Signup />
+                </OpenRoutes>
+              }
+            />
             <Route path="reset-password" element={<Resetpassword />} />
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="refund-policy" element={<RefundPolicy />} />

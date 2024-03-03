@@ -28,7 +28,10 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(loginUser(values));
+
       navigate("/");
+      window.location.reload();
+
       setTimeout(() => {
         formik.resetForm();
       }, 2000);
