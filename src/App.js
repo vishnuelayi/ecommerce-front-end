@@ -25,6 +25,7 @@ import Checkout from "./pages/Checkout";
 import { PrivateRoutes } from "./routing/PrivateRoute";
 import { OpenRoutes } from "./routing/OpenRoutes";
 import Orders from "./pages/Orders";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="product" element={<OurStore />} />
             <Route path="myorders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
             <Route path="product/:id" element={<SingleProduct />} />
+            <Route path="profile" element={<Profile/>} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route

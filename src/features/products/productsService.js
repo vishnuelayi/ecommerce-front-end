@@ -172,6 +172,22 @@ const getOrders = async () => {
   }
 };
 
+const writeReview = async (data) => {
+  console.log(data);
+  try {
+    const response = await axios.put(`${base_url}product/rating`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const productsService = {
   getProducts,
   addToWhishList,
@@ -181,6 +197,7 @@ const productsService = {
   deleteOneProd,
   updateQuantityCart,
   createOrder,
-  getOrders
+  getOrders,
+  writeReview
 };
 export default productsService;

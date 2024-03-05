@@ -120,6 +120,19 @@ export const getOrders = createAsyncThunk("myorders", async (thunkAPI) => {
   }
 });
 
+//for writing a review for a product
+export const writeReview = createAsyncThunk(
+  "product/add-review",
+  async (data, thunkAPI) => {
+    try {
+      const response = await productsService.writeReview(data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -299,6 +312,26 @@ export const productsSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
+      })
+      .addCase(writeReview.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(writeReview.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Review Added Successfully");
+        }
+      })
+      .addCase(writeReview.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+        if (state.isError) {
+          toast.error("Something Went Wrong");
+        }
       });
   },
 });

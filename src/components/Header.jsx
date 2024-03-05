@@ -1,30 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "../features/products/productsSlice";
+import { getCart, getProducts } from "../features/products/productsSlice";
 import { IoIosLogOut } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+
 // import cart from '../images/cart.svg'
 // import user from '../images/user2.svg'
 const Header = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
 
   const [subTotal, setSubTotal] = useState(null);
+  const [productOpt, setProductOpt] = useState([]);
+  const [paginate, setPaginate] = useState(true);
 
   useEffect(() => {
     dispatch(getCart());
+    dispatch(getProducts());
   }, []);
 
   const handleLogout = () => {
-    localStorage.clear()
-    window.location.reload()
-  }
+    localStorage.clear();
+    window.location.reload();
+  };
 
-  const cartProducts = useSelector((state) => state.products.cartProducts);
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+  const products = useSelector((state) => state?.products?.products);
+
+  //for accumulating products into a new array for typehead
+  useEffect(() => {
+    let typeHeadData = [];
+    for (let index = 0; index < products?.length; index++) {
+      const element = products[index];
+      typeHeadData.push({
+        id: index,
+        prod: element?._id,
+        name: element?.title,
+      });
+    }
+    setProductOpt(typeHeadData);
+  }, [products]);
 
   //for showing total cart amount at the cart icon in the top
   useEffect(() => {
@@ -66,12 +87,17 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  placeholder="Search Product Here..."
-                  aria-label="Search Product Here..."
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log("Results paginated")}
+                  paginate={paginate}
+                  labelKey={"name"}
+                  options={productOpt}
+                  minLength={2}
+                  onChange={(selected) => {
+                    navigate(`/product/${selected[0]?.prod}`);
+                  }}
+                  placeholder="Search for products..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -138,23 +164,22 @@ const Header = () => {
                         aria-labelledby="dropdownMenuButton1"
                       >
                         <li>
-                          <Link className="dropdown-item fs-6" to="">
+                          <Link className="dropdown-item fs-6" to="/profile">
                             <CgProfile /> Profile
                           </Link>
                         </li>
                         <li>
                           <Link className="dropdown-item fs-6" to="/myorders">
-                            <FaShippingFast /> Orders
+                            <FaShippingFast /> My Orders
                           </Link>
                         </li>
                         <div onClick={handleLogout}>
-                        <li>
-                          <Link className="dropdown-item fs-6" to="">
-                            <IoIosLogOut /> Logout
-                          </Link>
-                        </li>
+                          <li>
+                            <Link className="dropdown-item fs-6" to="">
+                              <IoIosLogOut /> Logout
+                            </Link>
+                          </li>
                         </div>
-                        
                       </ul>
                     </div>
                   )}

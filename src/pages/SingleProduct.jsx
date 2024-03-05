@@ -4,6 +4,8 @@ import Meta from "../components/Meta";
 import ReactStars from "react-rating-stars-component";
 import ProductCard from "../components/ProductCard";
 import ReactImageZoom from "react-image-zoom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import Color from "../components/Color";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -14,14 +16,41 @@ import {
   addToCart,
   getAproduct,
   getCart,
+  getProducts,
+  writeReview,
 } from "../features/products/productsSlice";
 import { toast } from "react-toastify";
 
+const validationSchema = Yup.object({
+  comment: Yup.string().required("Write something"),
+  star:Yup.number().required("Rate your product")
+});
+
 const SingleProduct = () => {
+
+
+
+  const formik = useFormik({
+    initialValues: {
+      comment: "",
+      star:0,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+ 
+      dispatch(writeReview({prodId:singleProdState?._id,comment:values?.comment,star:values?.star}))
+
+      setTimeout(() => {;
+        window.location.reload();
+        formik.resetForm();
+      }, 2000);
+    },
+  });
+
   const navigate = useNavigate();
 
-  
   const [alreadyAdded, setAlreadyAdded] = useState(false);
+  const [popularProducts, setPopularProducts] = useState([]);
   const location = useLocation();
 
   const prodId = location.pathname.split("/")[2];
@@ -43,10 +72,12 @@ const SingleProduct = () => {
   }
 
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     dispatch(getAproduct(prodId));
     dispatch(getCart());
+    dispatch(getProducts());
   }, []);
 
   useEffect(() => {
@@ -57,16 +88,22 @@ const SingleProduct = () => {
     }
   }, []);
 
-  const cartProducts = useSelector((state) => state?.products?.cartProducts);
-  console.log(cartProducts);
+  const products = useSelector((state) => state?.products?.products);
 
-  const singleProdState = useSelector((state) => state?.products?.singleProduct);
-  console.log(singleProdState);
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+
+  const singleProdState = useSelector(
+    (state) => state?.products?.singleProduct
+  );
+
+ 
+  
+
 
   const [quantity, setQuantity] = useState(null);
-  console.log(quantity);
+
   const [color, setColor] = useState(null);
-  console.log(color);
+
   const props = {
     width: 400,
     height: 600,
@@ -77,7 +114,6 @@ const SingleProduct = () => {
   };
   const [orderedProduct] = useState(true);
   const copyToClipboard = (text) => {
-    console.log("text", text);
     var textField = document.createElement("textarea");
     textField.innerText = text;
     document.body.appendChild(textField);
@@ -85,6 +121,18 @@ const SingleProduct = () => {
     document.execCommand("copy");
     textField.remove();
   };
+
+  //for seperating popular products from the whole product list
+  useEffect(() => {
+    let data = [];
+    for (let index = 0; index < products?.length; index++) {
+      if (products[index]?.tag === "popular") {
+        data.push(products[index]);
+      }
+    }
+    setPopularProducts(data);
+  }, [products]);
+
   return (
     <>
       <Meta title={singleProdState?.title} />
@@ -140,7 +188,7 @@ const SingleProduct = () => {
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={Number(singleProdState?.totalrating)}
                     edit={false}
                     activeColor="#ffd700"
                   />
@@ -294,7 +342,7 @@ const SingleProduct = () => {
                     <ReactStars
                       count={5}
                       size={24}
-                      value={4}
+                      value={Number(singleProdState?.totalrating)}
                       edit={false}
                       activeColor="#ffd700"
                     />
@@ -312,50 +360,60 @@ const SingleProduct = () => {
               </div>
               <div className="review-form py-4">
                 <h4>Write a Review</h4>
-                <form action="" className="d-flex flex-column gap-15">
+                <form action="" className="d-flex flex-column gap-15" onSubmit={formik.handleSubmit}>
                   <div>
                     <ReactStars
                       count={5}
                       size={24}
-                      value={4}
+                      value={formik.values.star}
                       edit={true}
+                      name="star"
+                      onChange={(newRating) => formik.setFieldValue("star", newRating)}
+                      onBlur= {formik.handleBlur("star")}
                       activeColor="#ffd700"
                     />
                   </div>
                   <div>
                     <textarea
-                      name=""
+                      name="comment"
                       id=""
                       className="w-100 form-control"
                       cols="30"
                       rows="4"
+                      value={formik.values.comment}
+                      onChange={formik.handleChange("comment")}
+                      onBlur={formik.handleBlur("comment")}
                       placeholder="Comments"
                     ></textarea>
                   </div>
                   <div className="d-flex justify-content-end">
-                    <button className="button border-0">Submit Review</button>
+                    <button className="button border-0" type="submit">Submit Review</button>
                   </div>
                 </form>
               </div>
               <div className="reviews mt-4">
                 <div className="review">
-                  <div className="d-flex gap-10 align-items-center">
-                    <h6 className="mb-0">Patrick</h6>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
-                    />
-                  </div>
+                  {singleProdState?.ratings ? (
+                    singleProdState?.ratings?.map((item, index) => {
+                      return(
+                      <div key={index}>
+                        <div className="d-flex gap-10 align-items-center">
+                          <h6 className="mb-0">{item?.postedBy?.firstname}</h6>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            value={item?.star}
+                            edit={false}
+                            activeColor="#ffd700"
+                          />
+                        </div>
 
-                  <p className="mt-3">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Fugit cum tempora, suscipit, alias cupiditate numquam magnam
-                    eius a error, ex quo dolorum illo non nisi deserunt
-                    consectetur rerum molestiae exercitationem?
-                  </p>
+                        <p className="mt-3">{item?.comment}</p>
+                      </div>)
+                    })
+                  ) : (
+                    <h4>No Reviews available for this product</h4>
+                  )}
                 </div>
               </div>
             </div>
@@ -369,7 +427,10 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
+          {popularProducts &&
+            popularProducts?.map((item, index) => {
+              return <ProductCard data={item} grid={4} key={index} />;
+            })}
         </div>
       </Container>
     </>

@@ -29,10 +29,9 @@ const Login = () => {
     onSubmit: (values) => {
       dispatch(loginUser(values));
 
-      navigate("/");
-      window.location.reload();
-
       setTimeout(() => {
+        navigate("/");
+        window.location.reload();
         formik.resetForm();
       }, 2000);
     },
