@@ -110,6 +110,20 @@ const deleteOneProd = async (id) => {
   }
 };
 
+const emptyCart = async () => {
+  try {
+    const response = await axios.delete(`${base_url}user/empty-cart`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const updateQuantityCart = async (cartDetails) => {
   console.log(cartDetails);
   try {
@@ -126,7 +140,6 @@ const updateQuantityCart = async (cartDetails) => {
 
     console.log(response.data.quantity);
     return response.data;
-    
   } catch (error) {
     throw new Error(error);
   }
@@ -148,12 +161,58 @@ const createOrder = async (orderData) => {
 
     console.log(response.data.quantity);
     return response.data;
-    
   } catch (error) {
     throw new Error(error);
   }
 };
 
+const getOrders = async () => {
+  try {
+    const response = await axios.get(
+      `${base_url}user/get-orders`,
 
-const productsService = { getProducts, addToWhishList, getAProduct, addToCart, getCart, deleteOneProd, updateQuantityCart,createOrder };
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const writeReview = async (data) => {
+  console.log(data);
+  try {
+    const response = await axios.put(`${base_url}product/rating`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const productsService = {
+  getProducts,
+  addToWhishList,
+  getAProduct,
+  addToCart,
+  getCart,
+  deleteOneProd,
+  updateQuantityCart,
+  createOrder,
+  getOrders,
+  writeReview,
+  emptyCart
+};
 export default productsService;

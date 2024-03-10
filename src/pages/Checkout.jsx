@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 // import watch from '../images/watch.jpg';
 import Container from "../components/Container";
-import { createOrder, getCart } from "../features/products/productsSlice";
+import {
+  createOrder,
+  emptyCart,
+  getCart,
+} from "../features/products/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -21,20 +25,15 @@ const shippingSchema = yup.object({
 });
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [subTotal, setSubTotal] = useState();
-  const [paymentInfo, setPaymentInfo] = useState({
-    razorpayOrderId: "",
-    razorpayPaymentId: "",
-  });
-  const [shippingInfo, setShippingInfo] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const shippingCost = 150;
 
   const token = Token();
 
-  
   //fetching products in the cart
   useEffect(() => {
     dispatch(getCart());
@@ -51,7 +50,7 @@ const Checkout = () => {
       sum = sum + cartProducts[index].price * cartProducts[index].quantity;
       setSubTotal(sum);
     }
-  }, [cartProducts]);
+  }, []);
 
   //payment gatway configuration
   const loadScript = (src) => {
@@ -94,14 +93,13 @@ const Checkout = () => {
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
-      setShippingInfo(values);
-      checkoutHandler();
-      
+      localStorage.setItem("address", JSON.stringify(values));
 
-     
+      setTimeout(() => {
+        checkoutHandler();
+      }, 3000);
     },
   });
-
 
   const checkoutHandler = async () => {
     const res = await loadScript(
@@ -113,7 +111,7 @@ const Checkout = () => {
     }
     const result = await axios.post(
       "http://localhost:5000/api/user/order/checkout",
-      {},
+      {amount: subTotal+shippingCost},
       {
         headers: {
           "Content-Type": "application/json",
@@ -152,24 +150,24 @@ const Checkout = () => {
           }
         );
 
-        setPaymentInfo(result.data);
+        localStorage.setItem("payment", JSON.stringify(result?.data));
 
-        console.log(shippingInfo);
-        console.log(paymentInfo);
-
-        if(shippingInfo !== null){
+        setTimeout(() => {
           dispatch(
             createOrder({
-              shippingInfo: shippingInfo,
-              paymentInfo: paymentInfo,
-              totalPrice: subTotal,
-              toatalPriceAfterDiscount: subTotal,
+              shippingInfo: JSON.parse(localStorage.getItem("address")),
+              paymentInfo: JSON.parse(localStorage.getItem("payment")),
+              totalPrice: subTotal+shippingCost,
+              totalPriceAfterDiscount: subTotal,
               orderItems,
+              shippingCost
             })
           );
-        }
-          
-       
+          dispatch(emptyCart());
+          localStorage.removeItem("address");
+          localStorage.removeItem("payment");
+          navigate("/myorders");
+        }, 1000);
       },
       prefill: {
         name: "Creative Clothing Inc",

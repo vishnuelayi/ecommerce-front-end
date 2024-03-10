@@ -35,7 +35,7 @@ const ProductCard = (props) => {
             </Link>
           </div>
           <div className="product-image">
-            <img src={data?.images[0]} className="img-fluid" alt="product img" />
+            <img src={data.images && data?.images[0]} className="img-fluid" alt="product img" />
             <img
               src="images/watch.avif"
               className="img-fluid"

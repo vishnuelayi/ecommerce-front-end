@@ -1,24 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "../features/products/productsSlice";
+import { getCart, getProducts } from "../features/products/productsSlice";
+import { IoIosLogOut } from "react-icons/io";
+import { FaShippingFast } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+
 // import cart from '../images/cart.svg'
 // import user from '../images/user2.svg'
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
 
-
-  const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"))
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+  const cartStatus = useSelector((state) => state?.products)
  
+  const products = useSelector((state) => state?.products?.products);
+
 
   const [subTotal, setSubTotal] = useState(null);
+  const [productOpt, setProductOpt] = useState([]);
+  const [logout, setLogout] = useState(false)
+  const [paginate, setPaginate] = useState(true);
+  const [cartLength, setCartLength] = useState(0)
+  
+
+
+
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
-    dispatch(getCart());
-  }, []);
+    if (user !== null) {
+      dispatch(getCart());
+      
+    }
+    else{
+      
+      setSubTotal(0)
+    }
+    
 
-  const cartProducts = useSelector((state) => state.products.cartProducts);
+   
+  }, [ logout]);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  },[])
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setLogout(true)
+  };
+
+ 
+
+  //for accumulating products into a new array for typehead
+  useEffect(() => {
+    let typeHeadData = [];
+    for (let index = 0; index < products?.length; index++) {
+      const element = products[index];
+      typeHeadData.push({
+        id: index,
+        prod: element?._id,
+        name: element?.title,
+      });
+    }
+    setProductOpt(typeHeadData);
+  }, [products]);
 
   //for showing total cart amount at the cart icon in the top
   useEffect(() => {
@@ -60,12 +112,17 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  placeholder="Search Product Here..."
-                  aria-label="Search Product Here..."
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log("Results paginated")}
+                  paginate={paginate}
+                  labelKey={"name"}
+                  options={productOpt}
+                  minLength={2}
+                  onChange={(selected) => {
+                    navigate(`/product/${selected[0]?.prod}`);
+                  }}
+                  placeholder="Search for products..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -97,22 +154,60 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link
-                  
-                    to={getUserFromLocalStorage === null ? "/login":""}
-                    className="d-flex align-items-center gap-10  text-white"
-                  >
-                    <img src="images/user2.svg" alt="User" />
-                    {getUserFromLocalStorage === null ? 
-                      <p className="mb-0">
-                        Login <br /> My Account{" "}
-                      </p>
-                     : (
-                      <p className="mb-0">
-                        Hello <br /> {getUserFromLocalStorage?.firstname}
-                      </p>
-                    )}
-                  </Link>
+                  {getUserFromLocalStorage === null ? (
+                    <div>
+                      {" "}
+                      <Link
+                        to={"/login"}
+                        className="d-flex align-items-center gap-10  text-white"
+                      >
+                        <img src="images/user2.svg" alt="User" />
+
+                        <p className="mb-0">
+                          Login <br /> My Account{" "}
+                        </p>
+                      </Link>{" "}
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center mb-0"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <img src="images/user2.svg" alt="User" />
+                        <span className=" d-inline-block">
+                          Hello
+                          <br />
+                          {getUserFromLocalStorage?.firstname}
+                        </span>
+                      </button>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton1"
+                      >
+                        <li>
+                          <Link className="dropdown-item fs-6" to="/profile">
+                            <CgProfile /> Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item fs-6" to="/myorders">
+                            <FaShippingFast /> My Orders
+                          </Link>
+                        </li>
+                        <div onClick={handleLogout}>
+                          <li>
+                            <Link className="dropdown-item fs-6" to="">
+                              <IoIosLogOut /> Logout
+                            </Link>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <Link
