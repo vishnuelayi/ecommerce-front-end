@@ -84,6 +84,19 @@ export const deleteOneProductCart = createAsyncThunk(
   }
 );
 
+//for clearing the cart after completion of the order
+export const emptyCart = createAsyncThunk(
+  "cart/empty-cart",
+  async (thunkAPI) => {
+    try {
+      const response = await productsService.emptyCart();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 //for updating quantity of a product
 export const updateQuantityCart = createAsyncThunk(
   "product/update-proquantity",
@@ -332,6 +345,20 @@ export const productsSlice = createSlice({
         if (state.isError) {
           toast.error("Something Went Wrong");
         }
+      })
+      .addCase(emptyCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(emptyCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(emptyCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
       });
   },
 });

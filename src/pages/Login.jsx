@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const authState = useSelector((state) => state.auth);
+  
 
   const formik = useFormik({
     initialValues: {
@@ -28,14 +29,15 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(loginUser(values));
-
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-        formik.resetForm();
-      }, 2000);
     },
   });
+
+  useEffect(() => {
+    if (authState.users !== null && authState.isError === false) {
+      navigate("/");
+      formik.resetForm();
+    }
+  }, [authState]);
   return (
     <>
       <Meta title={"Login"} />

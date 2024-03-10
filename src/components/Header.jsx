@@ -16,22 +16,47 @@ const Header = () => {
   const navigate = useNavigate();
   const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
 
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+  const cartStatus = useSelector((state) => state?.products)
+ 
+  const products = useSelector((state) => state?.products?.products);
+
+
   const [subTotal, setSubTotal] = useState(null);
   const [productOpt, setProductOpt] = useState([]);
+  const [logout, setLogout] = useState(false)
   const [paginate, setPaginate] = useState(true);
+  const [cartLength, setCartLength] = useState(0)
+  
+
+
+
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
-    dispatch(getCart());
+    if (user !== null) {
+      dispatch(getCart());
+      
+    }
+    else{
+      
+      setSubTotal(0)
+    }
+    
+
+   
+  }, [ logout]);
+
+  useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  },[])
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.reload();
+    setLogout(true)
   };
 
-  const cartProducts = useSelector((state) => state?.products?.cartProducts);
-  const products = useSelector((state) => state?.products?.products);
+ 
 
   //for accumulating products into a new array for typehead
   useEffect(() => {

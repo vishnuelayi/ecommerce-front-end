@@ -110,6 +110,20 @@ const deleteOneProd = async (id) => {
   }
 };
 
+const emptyCart = async () => {
+  try {
+    const response = await axios.delete(`${base_url}user/empty-cart`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const updateQuantityCart = async (cartDetails) => {
   console.log(cartDetails);
   try {
@@ -198,6 +212,7 @@ const productsService = {
   updateQuantityCart,
   createOrder,
   getOrders,
-  writeReview
+  writeReview,
+  emptyCart
 };
 export default productsService;

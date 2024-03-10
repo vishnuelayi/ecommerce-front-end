@@ -36,6 +36,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+//update a user details
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async (data, thunkAPI) => {
+    try {
+      const response = await authService.updateUser(data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // for fetching user wishlist
 export const getwishlist = createAsyncThunk(
   "user/get-wishlist",
@@ -59,24 +72,16 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
+        state.signedUpUser = action.payload;
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
         if (state.isSuccess) {
-          toast.success("Signed Up Successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.success("Signed Up Successfully");
         }
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.users = [];
+        state.signedUpUser = [];
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;
@@ -122,18 +127,10 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.message = action.payload.message;
         if (state.isError) {
-          toast.error("Something went wrong", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.error(action.payload.response.data.message);
         }
-      }).addCase(getwishlist.pending, (state) => {
+      })
+      .addCase(getwishlist.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getwishlist.fulfilled, (state, action) => {
@@ -141,7 +138,6 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.wishlist = action.payload;
-        
       })
       .addCase(getwishlist.rejected, (state, action) => {
         state.wishlist = [];
@@ -149,7 +145,28 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.isLoading = false;
         state.message = action.payload.message;
-     
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedUser = action.payload;
+        if (state.isSuccess) {
+          toast.success("Profile Updated");
+        }
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updatedUser = [];
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+        if (state.isError) {
+          toast.error("Something went wrong");
+        }
       });
   },
 });
