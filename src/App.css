@@ -815,3 +815,11 @@ margin-bottom: 0px;
 } */
 
 /* our store end  */
+
+.loader{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Additional styling if needed */
+}

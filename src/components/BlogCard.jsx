@@ -6,9 +6,9 @@ const BlogCard = (props) => {
   // console.log(data);
 
   return (
-    <div >
+    <div className='d-flex flex-wrap gap-4'>
       {data?.map((item, index) => (
-        <div key={index} className="blog-card">
+        <div key={index} className="blog-card ">
           <div className="card-image">
             <img src="images/blog-1.jpg" className="img-fluid w-100" alt="blog" />
           </div>
