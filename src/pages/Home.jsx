@@ -25,8 +25,8 @@ const Home = () => {
   const blogState = useSelector((state) => state.blogs.blogs);
   return (
     <>
-      <Container class1="home-wrapper-1 py-5">
-        <div className="row">
+      <Container class1="py-5">
+        <div className="row border">
           <div className="col-6">
             <div className="main-banner position-relative">
               <img
@@ -35,9 +35,9 @@ const Home = () => {
                 alt="main banner"
               />
               <div className="main-banner-content position-absolute">
-                <h4>SUPERCHARGED FOR PROS.</h4>
-                <h5>iPad S13+ Pro</h5>
-                <p>From $999.00 or $41.62</p>
+                <h4>Bose QuietComfort® 45 </h4>
+                <h5>Headphones </h5>
+                <p>From ₹4500.00 </p>
                 <Link className="button">BUY NOW</Link>
               </div>
             </div>
@@ -52,10 +52,10 @@ const Home = () => {
                 />
                 <div className="small-banner-content position-absolute">
                   <h4>Best Sale.</h4>
-                  <h5>iPad S13+ Pro</h5>
+                  <h5>MacBook Air</h5>
                   <p>
-                    From $999.00
-                    <br /> or $41.62
+                    From ₹4844.00/mo
+                    <br /> or ₹99900.00
                   </p>
                 </div>
               </div>
@@ -67,11 +67,10 @@ const Home = () => {
                 />
                 <div className="small-banner-content position-absolute">
                   <h4>NEW ARRIVAL.</h4>
-                  <h5>Buy iPad Air</h5>
-                  <p>
-                    From $999.00 <br />
-                    or $41.62
-                  </p>
+                  <h5>
+                    Apple Watch <br /> Series 9
+                  </h5>
+                  <p>From ₹41900.00*</p>
                 </div>
               </div>
               <div className="small-banner position-relative">
@@ -82,11 +81,8 @@ const Home = () => {
                 />
                 <div className="small-banner-content position-absolute">
                   <h4>SUPERCHARGED FOR PROS.</h4>
-                  <h5>iPad S13+ Pro</h5>
-                  <p>
-                    From $999.00 <br />
-                    or $41.62
-                  </p>
+                  <h5>iPad Air</h5>
+                  <p>From ₹59900.00</p>
                 </div>
               </div>
               <div className="small-banner position-relative">
@@ -96,11 +92,9 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>SUPERCHARGED FOR PROS.</h4>
-                  <h5>iPad S13+ Pro</h5>
-                  <p>
-                    From $999.00 <br /> or $41.62
-                  </p>
+                  <h4> AUDIO STATION</h4>
+                  <h5>AirPods Max</h5>
+                  <p>From ₹59900.00</p>
                 </div>
               </div>
             </div>
@@ -135,56 +129,84 @@ const Home = () => {
                   <h6>Music & Gaming</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/camera.jpg" alt="Camera" />
+                <img
+                  src="images/ps5f.jpg"
+                  alt="PlayStation 5"
+                  style={{ width: "100px" }}
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Cameras</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/camera.jpg" alt="Camera" />
+                <img
+                  src="images/cameranew.jpg"
+                  alt="Camera"
+                  style={{ width: "100px" }}
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
-                  <h6>Smart Tv</h6>
+                  <h6>Computers & Laptops</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/tv.jpg" alt="Camera" />
-              </div>
-              <div className="d-flex gap align-items-center">
-                <div>
-                  <h6>Smart Watches</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/headphone.jpg" alt="Camera" />
-              </div>
-              <div className="d-flex gap align-items-center">
-                <div>
-                  <h6>Music & Gaming</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/camera.jpg" alt="Camera" />
-              </div>
-              <div className="d-flex gap align-items-center">
-                <div>
-                  <h6>Cameras</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/camera.jpg" alt="Camera" />
-              </div>
-              <div className="d-flex gap align-items-center">
-                <div>
-                  <h6>Smart Tv</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/tv.jpg" alt="Camera" />
+                <img
+                  src="images/laptopnew.jpg"
+                  alt="Laptop"
+                  style={{ width: "100px" }}
+                />
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Smart Watches</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/headphone.jpg" alt="Camera" />
+                <img
+                  src="images/smartwatchnew.jpg"
+                  alt="Smartwatch"
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <div className="d-flex gap align-items-center">
+                <div>
+                  <h6>Smartphones & Tablets</h6>
+                  <p>10 Items</p>
+                </div>
+                <img
+                  src="images/smartphonenew.jpg"
+                  alt="smarphone"
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <div className="d-flex gap align-items-center">
+                <div>
+                  <h6>Audio & Headphones</h6>
+                  <p>10 Items</p>
+                </div>
+                <img
+                  src="images/headphonenew.jpg"
+                  alt="Headphones"
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <div className="d-flex gap align-items-center">
+                <div>
+                  <h6>TV & Home Entertainment</h6>
+                  <p>10 Items</p>
+                </div>
+                <img src="images/tv.jpg" alt="Tv" />
+              </div>
+              <div className="d-flex gap align-items-center">
+                <div>
+                  <h6>Drones & Accessories</h6>
+                  <p>10 Items</p>
+                </div>
+                <img
+                  src="images/dronenew.jpg"
+                  alt="Drone"
+                  style={{ width: "100px" }}
+                />
               </div>
             </div>
           </div>
@@ -196,7 +218,7 @@ const Home = () => {
             <h3 className="section-heading">Featured Collection</h3>
           </div>
           {productState.map((item, index) => {
-            if (index < 4) {
+            while ( item?.tag === "featured") {
               return <ProductCard data={item} key={index} />;
             }
           })}
@@ -280,7 +302,7 @@ const Home = () => {
                   key={index}
                   title={item?.title}
                   image={item?.images[0]}
-                  brand={item?.brand}
+                  category = {item?.category}
                   price={item?.price}
                 />
               );
@@ -296,7 +318,9 @@ const Home = () => {
         </div>
         <div className="row">
           {productState.map((item, index) => {
-            return <ProductCard data={item} key={index} />;
+            if (item?.tag === "popular" && index < 5) {
+              return <ProductCard data={item} key={index} />;
+            }
           })}
         </div>
       </Container>

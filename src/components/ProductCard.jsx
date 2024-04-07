@@ -36,15 +36,12 @@ const ProductCard = (props) => {
           </div>
           <div className="product-image">
             <img src={data.images && data?.images[0]} className="img-fluid" alt="product img" />
-            <img
-              src="images/watch.avif"
-              className="img-fluid"
-              alt="product img"
-            />
+            <img src={data.images && data?.images[1]} className="img-fluid" alt="product img"  />
+          
           </div>
 
           <div className="product-details">
-            <h6 className="brand"> {data?.brand}</h6>
+            <h6 className="brand"> {data?.category.title}</h6>
             <h5 className="product-title">{data?.title}</h5>
             <ReactStars
               count={5}
