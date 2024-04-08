@@ -36,9 +36,8 @@ const Blog = () => {
           </div>
           <div className="col-9">
             <div className="row">
-              <div className="col-6 mb-3">
-              
-                <BlogCard data = {blogState} />
+              <div className=" mb-3">
+              <BlogCard data = {blogState} />
               </div>
             </div>
           </div>

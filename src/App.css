@@ -300,6 +300,10 @@ footer .input-group-text{
   height: 100%;
 }
 
+.cursor{
+  cursor: pointer;
+}
+
 .product-card .product-image {
   height: 270px;
 }

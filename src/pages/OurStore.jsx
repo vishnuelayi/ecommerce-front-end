@@ -14,7 +14,7 @@ const OurStore = () => {
   const dispatch = useDispatch();
 
   const productsState = useSelector((state) => state.products.products);
-  // console.log(productsState);
+  
 
   const [newBrand, setNewBrand] = useState([]);
   const [newCategory, setNewCategory] = useState([]);
@@ -31,8 +31,8 @@ const OurStore = () => {
 
     for (let index = 0; index < productsState?.length; index++) {
       const element = productsState[index];
-      brandSet.add(element?.brand);
-      categorySet.add(element?.category);
+      brandSet.add(element?.brand?.title);
+      categorySet.add(element?.category?.title);
       tagSet.add(element?.tag);
     }
 
@@ -42,9 +42,9 @@ const OurStore = () => {
     setNewTag([...tagSet]);
   }, [productsState]);
 
-  console.log(newBrand);
-  console.log(newCategory);
-  console.log(newTag);
+  // console.log(newBrand);
+  // console.log(newCategory);
+  // console.log(newTag);
 
   useEffect(() => {
     dispatch(getProducts());
