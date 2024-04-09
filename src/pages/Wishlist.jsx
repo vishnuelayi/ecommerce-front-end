@@ -12,6 +12,10 @@ const Wishlist = () => {
     dispatch(getwishlist());
   }, []);
 
+  const addTtoWlist = (id) => {
+    // console.log(id);
+    dispatch(addToWhishList(id));
+  };
 
   const wishList = useSelector((state) => state.auth.wishlist);
 
@@ -22,9 +26,9 @@ const Wishlist = () => {
       <Container class1="wishlist-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
-          {
-           wishList?.length === 0 && <div className="text-center">Wishlist is empty</div>
-          }
+            {wishList?.length === 0 && (
+              <div className="text-center">Wishlist is empty</div>
+            )}
             {wishList?.map((item, index) => {
               return (
                 <div className="col-3" key={index}>
@@ -33,7 +37,7 @@ const Wishlist = () => {
                       src="images/cross.svg"
                       alt="cross"
                       className="position-absolute cross img-fluid"
-                      
+                      onClick={() => addTtoWlist(item?._id)}
                     />
                     <div className="wishlist-card-image">
                       <img
@@ -43,10 +47,9 @@ const Wishlist = () => {
                       />
                     </div>
                     <div className="py-3 px-3">
-                      <h5 className="title">
-                       {item?.title}
-                      </h5>
+                      <h5 className="title">{item?.title}</h5>
                       <h6 className="price">₹{item?.price}</h6>
+                      <button className="button border-0">Add to cart</button>
                     </div>
                   </div>
                 </div>

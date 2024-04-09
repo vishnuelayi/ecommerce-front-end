@@ -88,7 +88,7 @@ const Header = () => {
           <div className="row">
             <div className="col-6">
               <p className="text-white mb-0">
-                Free Shipping Over Ksh 10,000 & Free Returns
+                Free Shipping Over ₹2000 & Free Returns
               </p>
             </div>
             <div className="col-6">
@@ -107,7 +107,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white">Creative.</Link>
+                <Link className="text-white" to="/">Creative.</Link>
               </h2>
             </div>
             <div className="col-5">

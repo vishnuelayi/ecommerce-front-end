@@ -175,8 +175,20 @@ export const productsSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        if (state.isSuccess) {
+        if (action.payload.message === "Added to wishlist") {
           toast.success("Added to wishlist", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+        else{
+          toast.error("Removed from wishlist", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,

@@ -47,10 +47,11 @@ const SingleProduct = () => {
     },
   });
 
-  const navigate = useNavigate();
 
-  const [alreadyAdded, setAlreadyAdded] = useState(false);
+
+  
   const [popularProducts, setPopularProducts] = useState([]);
+  console.log(popularProducts);
   const location = useLocation();
 
   const prodId = location.pathname.split("/")[2];
@@ -64,7 +65,7 @@ const SingleProduct = () => {
         addToCart({
           productId: singleProdState?._id,
           quantity,
-          color,
+          color: color,
           price: singleProdState?.price,
         })
       );
@@ -76,34 +77,31 @@ const SingleProduct = () => {
 
   useEffect(() => {
     dispatch(getAproduct(prodId));
-    dispatch(getCart());
     dispatch(getProducts());
   }, []);
 
-  useEffect(() => {
-    for (let index = 0; index < cartProducts?.length; index++) {
-      if (prodId === cartProducts[index]?.productId?._id) {
-        setAlreadyAdded(true);
-      }
-    }
-  }, []);
+  
 
   const products = useSelector((state) => state?.products?.products);
 
-  const cartProducts = useSelector((state) => state?.products?.cartProducts);
 
   const singleProdState = useSelector(
     (state) => state?.products?.singleProduct
   );
 
+  
+
  
   
 
 
-  const [quantity, setQuantity] = useState(null);
+  const [quantity, setQuantity] = useState(0);
 
   const [color, setColor] = useState(null);
 
+
+
+// image magnifing component config
   const props = {
     width: 400,
     height: 600,
@@ -221,14 +219,14 @@ const SingleProduct = () => {
                   <h3 className="product-heading">Color</h3>
                   <div className="d-flex ">
                   {singleProdState?.color.map((item) => {
-                    return <span  onClick={() => setColor(item?.title)} key={item._id} className="product-data border rounded  p-1 cursor">{item?.title} </span>
+                    return <span  onClick={() => setColor(item?._id)} key={item._id} className="product-data border rounded  p-1 cursor">{item?.title} </span>
                   })}
                   </div>
                 </div>
 
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   <h3 className="product-heading">Quantity :</h3>
-                  {alreadyAdded === false && (
+                  
                     <div className="">
                       <input
                         type="number"
@@ -244,16 +242,16 @@ const SingleProduct = () => {
                         }}
                       />
                     </div>
-                  )}
+                 
                   <div className="d-flex align-items-center gap-30 ms-5">
                     <button
                       className="button border-0"
                       type="submit"
                       onClick={() => {
-                        alreadyAdded ? navigate("/cart") : uploadCart();
+                        uploadCart();
                       }}
                     >
-                      {alreadyAdded ? "Go to cart" : "Add to cart"}
+                       Add to cart
                     </button>
                     <button className="button signup">Buy It Now</button>
                   </div>
@@ -408,9 +406,9 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          {popularProducts &&
+          {
             popularProducts?.map((item, index) => {
-              return <ProductCard data={item} grid={4} key={index} />;
+              return <ProductCard data={item} grid={4} key={item?._id} />;
             })}
         </div>
       </Container>
