@@ -15,9 +15,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+  
 
-  const cartProducts = useSelector((state) => state?.products?.cartProducts);
-  const cartStatus = useSelector((state) => state?.products)
  
   const products = useSelector((state) => state?.products?.products);
 
@@ -31,10 +30,14 @@ const Header = () => {
 
 
 
-  const user = localStorage.getItem("user");
+ 
+ 
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+  
+  const cartStatus = useSelector((state) => state?.products)
 
   useEffect(() => {
-    if (user !== null) {
+    if (getUserFromLocalStorage !== null) {
       dispatch(getCart());
       
     }
@@ -217,7 +220,7 @@ const Header = () => {
                     <img src="images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column">
                       <span className="badge bg-white text-dark">
-                        {cartProducts?.length ? cartProducts?.length : 0}
+                        {cartProducts?.length > 0 ? cartProducts?.length : 0}
                       </span>
                       <p className="mb-0">₹{subTotal ? subTotal : 0}</p>
                     </div>

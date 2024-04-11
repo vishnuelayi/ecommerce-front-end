@@ -19,9 +19,11 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signedUpUser = useSelector((state) => state?.auth?.singedUpUser);
+  const signedUpUser = useSelector((state) => state?.auth.signedUpUser);
+  console.log(signedUpUser);
   const authState = useSelector((state) => state?.auth);
 
   const formik = useFormik({
@@ -44,8 +46,6 @@ const Signup = () => {
       navigate("/login");
     }
   }, [authState]);
-
-  const dispatch = useDispatch();
 
   return (
     <>
