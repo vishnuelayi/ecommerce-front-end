@@ -22,6 +22,7 @@ const Home = () => {
   }, []);
 
   const productState = useSelector((state) => state.products.products);
+  
   const blogState = useSelector((state) => state.blogs.blogs);
   return (
     <>
@@ -212,15 +213,22 @@ const Home = () => {
           </div>
         </div>
       </Container>
+
+      {/* featured section */}
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12">
+          <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Featured Collection</h3>
+            <p className="button">see more</p>
           </div>
           {productState.map((item, index) => {
-            while ( item?.tag === "featured") {
-              return <ProductCard data={item} key={index} />;
-            }
+           
+           if(index > 4)
+           {
+            return <ProductCard data={item} key={index} />;
+           }
+            
+            
           })}
         </div>
       </Container>
@@ -288,10 +296,13 @@ const Home = () => {
           </div>
         </div>
       </Container>
+
+      {/* spacial product section */}
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Special Products</h3>
+        <div className="col-12 d-flex justify-content-between align-items-center">
+            <h3 className="section-heading">Spacial Products</h3>
+            <p className="button">see more</p>
           </div>
         </div>
         <div className="row">
@@ -310,20 +321,25 @@ const Home = () => {
           })}
         </div>
       </Container>
+
+      {/* popular section */}
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Our Popular Products</h3>
+        <div className="col-12 d-flex justify-content-between align-items-center">
+            <h3 className="section-heading">Popular Products</h3>
+            <p className="button">see more</p>
           </div>
         </div>
         <div className="row">
           {productState.map((item, index) => {
-            if (item?.tag === "popular" && index < 5) {
-              return <ProductCard data={item} key={index} />;
-            }
+            if(index > 4)
+           {
+            return <ProductCard data={item} key={index} />;
+           }
           })}
         </div>
       </Container>
+
       <Container class1="marquee-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
