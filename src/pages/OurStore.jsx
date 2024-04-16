@@ -7,6 +7,7 @@ import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/products/productsSlice";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
@@ -14,6 +15,9 @@ const OurStore = () => {
   const dispatch = useDispatch();
 
   const productsState = useSelector((state) => state.products.products);
+
+
+  
   
 
   const [newBrand, setNewBrand] = useState([]);
@@ -23,6 +27,9 @@ const OurStore = () => {
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState("");
+
+
+
 
   useEffect(() => {
     let brandSet = new Set();

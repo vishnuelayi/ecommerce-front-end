@@ -121,10 +121,13 @@ const Home = () => {
           </div>
         </div>
       </Container>
+
+      {/* categories section */}
       <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-15">
             <div className="categories d-flex justify-content-between flex-wrap align-items-center">
+            
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Music & Gaming</h6>
@@ -136,6 +139,7 @@ const Home = () => {
                   style={{ width: "100px" }}
                 />
               </div>
+              
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Cameras</h6>
@@ -219,7 +223,7 @@ const Home = () => {
         <div className="row">
           <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Featured Collection</h3>
-            <p className="button">see more</p>
+            <Link to="/product" className="text-white button mb-4">see more..</Link>
           </div>
           {productState.map((item, index) => {
            
@@ -232,6 +236,8 @@ const Home = () => {
           })}
         </div>
       </Container>
+
+
       <Container class1="famous-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-3">
@@ -302,7 +308,7 @@ const Home = () => {
         <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Spacial Products</h3>
-            <p className="button">see more</p>
+            <Link to="/product" className="text-white button mb-4">see more..</Link>
           </div>
         </div>
         <div className="row">
@@ -327,7 +333,7 @@ const Home = () => {
         <div className="row">
         <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Popular Products</h3>
-            <p className="button">see more</p>
+            <Link to="/product?tag=popular" className="text-white button mb-4">see more..</Link>
           </div>
         </div>
         <div className="row">

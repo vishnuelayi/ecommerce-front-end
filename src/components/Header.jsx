@@ -256,19 +256,53 @@ const Header = () => {
                     >
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Action
+                        Music & Gaming
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Another action
+                        Camera
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Something else here
+                        Computers & Laptops
                         </Link>
                       </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Smart Watches
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Smartphones & Tablets
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="/product">
+                        Audio & Headphones
+                        </Link>
+                      </li>
+
+                      
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        TV & Home Entertainment
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Drones & Accessories
+                        </Link>
+                      </li>
+                      
+                      
+                      
                     </ul>
                   </div>
                 </div>
