@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 const initialState = {
   products: [],
+  productsQuery:[],
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -146,6 +147,19 @@ export const writeReview = createAsyncThunk(
   }
 );
 
+//get products of query
+export const getProductsOnQuery = createAsyncThunk(
+  "product/query",
+  async (query, thunkAPI) => {
+    try {
+      const response = await productsService.getProductsOnQuery(query);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -186,8 +200,7 @@ export const productsSlice = createSlice({
             progress: undefined,
             theme: "light",
           });
-        }
-        else{
+        } else {
           toast.error("Removed from wishlist", {
             position: "bottom-center",
             autoClose: 2000,
@@ -367,6 +380,21 @@ export const productsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(emptyCart.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = action.payload.message;
+      })
+      .addCase(getProductsOnQuery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductsOnQuery.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productsQuery = action.payload;
+      })
+      .addCase(getProductsOnQuery.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;

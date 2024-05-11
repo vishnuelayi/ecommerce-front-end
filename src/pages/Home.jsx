@@ -22,7 +22,9 @@ const Home = () => {
   }, []);
 
   const productState = useSelector((state) => state.products.products);
-  
+  const productDemo = useSelector((state) => state.products);
+  console.log(productDemo);
+
   const blogState = useSelector((state) => state.blogs.blogs);
   return (
     <>
@@ -127,7 +129,6 @@ const Home = () => {
         <div className="row">
           <div className="col-15">
             <div className="categories d-flex justify-content-between flex-wrap align-items-center">
-            
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Music & Gaming</h6>
@@ -139,7 +140,7 @@ const Home = () => {
                   style={{ width: "100px" }}
                 />
               </div>
-              
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Cameras</h6>
@@ -223,23 +224,23 @@ const Home = () => {
         <div className="row">
           <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Featured Collection</h3>
-            <Link to="/product" className="text-white button mb-4">see more..</Link>
+            <Link to="/product?tag=featured" className="text-white button mb-4">
+              see more..
+            </Link>
           </div>
           {productState.map((item, index) => {
-           
-           if(index > 4)
-           {
-            return <ProductCard data={item} key={index} />;
-           }
-            
-            
+            if (index > 4) {
+              return <ProductCard data={item} key={index} />;
+            }
           })}
         </div>
       </Container>
 
-
       <Container class1="famous-wrapper py-5 home-wrapper-2">
         <div className="row">
+        <div className="col-12 ">
+           <span className="p-2 mb-1 border rounded">sponsored</span>
+          </div>
           <div className="col-3">
             <div className="famous-card position-relative">
               <img
@@ -306,9 +307,11 @@ const Home = () => {
       {/* spacial product section */}
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
-        <div className="col-12 d-flex justify-content-between align-items-center">
+          <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Spacial Products</h3>
-            <Link to="/product" className="text-white button mb-4">see more..</Link>
+            <Link to="/product" className="text-white button mb-4">
+              see more..
+            </Link>
           </div>
         </div>
         <div className="row">
@@ -319,7 +322,7 @@ const Home = () => {
                   key={index}
                   title={item?.title}
                   image={item?.images[0]}
-                  category = {item?.category}
+                  category={item?.category}
                   price={item?.price}
                 />
               );
@@ -331,17 +334,18 @@ const Home = () => {
       {/* popular section */}
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
-        <div className="col-12 d-flex justify-content-between align-items-center">
+          <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="section-heading">Popular Products</h3>
-            <Link to="/product?tag=popular" className="text-white button mb-4">see more..</Link>
+            <Link to="/product?tag=popular" className="text-white button mb-4">
+              see more..
+            </Link>
           </div>
         </div>
         <div className="row">
           {productState.map((item, index) => {
-            if(index > 4)
-           {
-            return <ProductCard data={item} key={index} />;
-           }
+            if (index > 4) {
+              return <ProductCard data={item} key={index} />;
+            }
           })}
         </div>
       </Container>

@@ -6,18 +6,26 @@ import ProductCard from "../components/ProductCard";
 import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../features/products/productsSlice";
-import { useParams, useSearchParams } from "react-router-dom";
+import {
+  
+  getProductsOnQuery,
+} from "../features/products/productsSlice";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tagValue = queryParams.get("tag");
+
+  useEffect(() => {
+    dispatch(getProductsOnQuery(tagValue));
+  }, []);
 
   const productsState = useSelector((state) => state.products.products);
-
-
-  
+  const productsQuery = useSelector((state) => state.products.productsQuery.item)
   
 
   const [newBrand, setNewBrand] = useState([]);
@@ -27,9 +35,6 @@ const OurStore = () => {
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState("");
-
-
-
 
   useEffect(() => {
     let brandSet = new Set();
@@ -51,11 +56,7 @@ const OurStore = () => {
 
   // console.log(newBrand);
   // console.log(newCategory);
-  // console.log(newTag);
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+  
 
   return (
     <>
@@ -212,7 +213,7 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                {productsState.map((item, index) => {
+                {productsQuery?.map((item, index) => {
                   return <ProductCard data={item} grid={grid} key={index} />;
                 })}
               </div>
