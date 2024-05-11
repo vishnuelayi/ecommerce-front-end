@@ -15,9 +15,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+  
 
-  const cartProducts = useSelector((state) => state?.products?.cartProducts);
-  const cartStatus = useSelector((state) => state?.products)
  
   const products = useSelector((state) => state?.products?.products);
 
@@ -31,10 +30,14 @@ const Header = () => {
 
 
 
-  const user = localStorage.getItem("user");
+ 
+ 
+  const cartProducts = useSelector((state) => state?.products?.cartProducts);
+  
+  const cartStatus = useSelector((state) => state?.products)
 
   useEffect(() => {
-    if (user !== null) {
+    if (getUserFromLocalStorage !== null) {
       dispatch(getCart());
       
     }
@@ -88,7 +91,7 @@ const Header = () => {
           <div className="row">
             <div className="col-6">
               <p className="text-white mb-0">
-                Free Shipping Over Ksh 10,000 & Free Returns
+                Free Shipping Over ₹2000 & Free Returns
               </p>
             </div>
             <div className="col-6">
@@ -107,7 +110,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white">Digitic.</Link>
+                <Link className="text-white" to="/">Creative.</Link>
               </h2>
             </div>
             <div className="col-5">
@@ -217,7 +220,7 @@ const Header = () => {
                     <img src="images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column">
                       <span className="badge bg-white text-dark">
-                        {cartProducts?.length ? cartProducts?.length : 0}
+                        {cartProducts?.length > 0 ? cartProducts?.length : 0}
                       </span>
                       <p className="mb-0">₹{subTotal ? subTotal : 0}</p>
                     </div>
@@ -253,19 +256,53 @@ const Header = () => {
                     >
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Action
+                        Music & Gaming
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Another action
+                        Camera
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                          Something else here
+                        Computers & Laptops
                         </Link>
                       </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Smart Watches
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Smartphones & Tablets
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="/product">
+                        Audio & Headphones
+                        </Link>
+                      </li>
+
+                      
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        TV & Home Entertainment
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                        Drones & Accessories
+                        </Link>
+                      </li>
+                      
+                      
+                      
                     </ul>
                   </div>
                 </div>

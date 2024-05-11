@@ -2,10 +2,11 @@ import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { addToWhishList } from "../features/products/productsSlice";
+import { addToCart, addToWhishList } from "../features/products/productsSlice";
 
 const ProductCard = (props) => {
   const { grid, data } = props;
+ 
   // console.log(grid)
   let location = useLocation();
 
@@ -16,6 +17,18 @@ const ProductCard = (props) => {
     dispatch(addToWhishList(id));
   };
 
+  //add to cart button action
+  function uploadCart() {
+    dispatch(
+      addToCart({
+        productId: data?._id,
+        quantity:1,
+        color: data?.color[0]?._id,
+        price: data?.price,
+      })
+    );
+  }
+
   return (
     <>
       <div
@@ -23,28 +36,32 @@ const ProductCard = (props) => {
           location.pathname === "/product" ? `gr-${grid}` : "col-3"
         }`}
       >
-        <div
-          className="product-card position-relative"
-        >
+        <div className="product-card position-relative">
           <div className="wishlist-icon position-absolute">
             <Link>
-            <button className=" border-0 bg-transparent" onClick={(e) => addTtoWlist(data?._id)}> 
-            <img src="images/wish.svg" alt="wishlist" />
-            </button>
-             
+              <button
+                className=" border-0 bg-transparent"
+                onClick={(e) => addTtoWlist(data?._id)}
+              >
+                <img src="images/wish.svg" alt="wishlist" />
+              </button>
             </Link>
           </div>
           <div className="product-image">
-            <img src={data.images && data?.images[0]} className="img-fluid" alt="product img" />
             <img
-              src="images/watch.avif"
+              src={data.images && data?.images[0]}
+              className="img-fluid"
+              alt="product img"
+            />
+            <img
+              src={data.images && data?.images[1]}
               className="img-fluid"
               alt="product img"
             />
           </div>
 
           <div className="product-details">
-            <h6 className="brand"> {data?.brand}</h6>
+            <h6 className="brand"> {data?.category.title}</h6>
             <h5 className="product-title">{data?.title}</h5>
             <ReactStars
               count={5}
@@ -67,7 +84,7 @@ const ProductCard = (props) => {
                 <img src="images/view.svg" alt="view" />
               </Link>
               <Link>
-                <img src="images/add-cart.svg" alt="addcart" />
+                <img src="images/add-cart.svg" alt="addcart" onClick={() => uploadCart()}/>
               </Link>
             </div>
           </div>

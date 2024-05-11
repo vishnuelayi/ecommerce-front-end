@@ -3,7 +3,10 @@ import authService from "./authService";
 import { toast } from "react-toastify";
 
 const initialState = {
-  users: null,
+  signedUpUser:null,
+  loginedUser: null,
+  updatedUser:null,
+  wishlist:[],
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -81,7 +84,7 @@ export const authSlice = createSlice({
         }
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.signedUpUser = [];
+        state.signedUpUser = null;
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;
@@ -106,7 +109,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.users = action.payload;
+        state.loginedUser = action.payload;
         if (state.isSuccess) {
           toast.success("Login Successfull", {
             position: "bottom-center",
@@ -121,7 +124,6 @@ export const authSlice = createSlice({
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.users = [];
         state.isError = true;
         state.isSuccess = false;
         state.isLoading = false;

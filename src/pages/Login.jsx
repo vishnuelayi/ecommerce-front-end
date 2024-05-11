@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
+import { getUserFromLocalStorage } from "../utils/tokenConfig";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Please give a valid email"),
@@ -18,7 +19,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const user = getUserFromLocalStorage();
+ 
+
   const authState = useSelector((state) => state.auth);
+
   
 
   const formik = useFormik({
@@ -33,7 +38,7 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (authState.users !== null && authState.isError === false) {
+    if (user !== null && authState.isError === false) {
       navigate("/");
       formik.resetForm();
     }

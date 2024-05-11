@@ -202,6 +202,27 @@ const writeReview = async (data) => {
   }
 };
 
+
+const getProductsOnQuery = async (query) => {
+  try {
+    const response = await axios.get(
+      `${base_url}product/get?tag=${query}`,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const productsService = {
   getProducts,
   addToWhishList,
@@ -213,6 +234,7 @@ const productsService = {
   createOrder,
   getOrders,
   writeReview,
-  emptyCart
+  emptyCart,
+  getProductsOnQuery
 };
 export default productsService;

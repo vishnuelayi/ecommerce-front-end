@@ -297,6 +297,11 @@ footer .input-group-text{
   border-radius: 10px;
   overflow: hidden;
   width: 100%;
+  height: 100%;
+}
+
+.cursor{
+  cursor: pointer;
 }
 
 .product-card .product-image {
@@ -350,11 +355,21 @@ footer .input-group-text{
 /* product card ends  */
 
 /* Special product */
-.special-product-card{
+.special-product-card {
   padding: 20px 10px;
   border-radius: 10px;
   background-color: white;
-  
+  height: 400px; /* Set a fixed height for the card */
+  width: 100%; /* Set the width to 100% for responsiveness */
+  display: flex; /* Add display: flex for proper alignment */
+  flex-direction: column; /* Set the flex direction to column */
+}
+
+
+
+.special-product-content {
+  flex: 1; /* Allow the content to take up remaining space */
+  padding: 10px; /* Add some padding for the content */
 }
 
 /* Special product ends */
@@ -815,3 +830,11 @@ margin-bottom: 0px;
 } */
 
 /* our store end  */
+
+.loader{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Additional styling if needed */
+}

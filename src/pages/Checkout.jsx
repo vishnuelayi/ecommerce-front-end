@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { Token } from "../utils/tokenConfig";
+import Loader from "../components/Loader";
 
 const shippingSchema = yup.object({
   firstName: yup.string().required("First Name is Required"),
@@ -30,6 +31,7 @@ const Checkout = () => {
 
   const [subTotal, setSubTotal] = useState();
   const [orderItems, setOrderItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const shippingCost = 150;
 
   const token = Token();
@@ -93,10 +95,12 @@ const Checkout = () => {
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
+      setLoading(true);
       localStorage.setItem("address", JSON.stringify(values));
 
       setTimeout(() => {
         checkoutHandler();
+        setLoading(false);
       }, 3000);
     },
   });
@@ -111,7 +115,7 @@ const Checkout = () => {
     }
     const result = await axios.post(
       "http://localhost:5000/api/user/order/checkout",
-      {amount: subTotal+shippingCost},
+      { amount: subTotal + shippingCost },
       {
         headers: {
           "Content-Type": "application/json",
@@ -157,10 +161,10 @@ const Checkout = () => {
             createOrder({
               shippingInfo: JSON.parse(localStorage.getItem("address")),
               paymentInfo: JSON.parse(localStorage.getItem("payment")),
-              totalPrice: subTotal+shippingCost,
+              totalPrice: subTotal + shippingCost,
               totalPriceAfterDiscount: subTotal,
               orderItems,
-              shippingCost
+              shippingCost,
             })
           );
           dispatch(emptyCart());
@@ -188,6 +192,8 @@ const Checkout = () => {
 
   return (
     <>
+     
+
       <Container class1="checkout-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-7">
@@ -368,8 +374,8 @@ const Checkout = () => {
                     <Link to="/cart" className="text-dark">
                       <BiArrowBack className="me-2" /> Return to cart
                     </Link>
-                    <button className="button" type="submit">
-                      Proceed to Payment
+                    <button className="button d-flex" type="submit">
+                      {loading ?  <Loader type="bubbles" color="#FFFFFF" /> : "Proceed to Payment"}
                     </button>
                   </div>
                 </div>
@@ -429,6 +435,7 @@ const Checkout = () => {
             <div className="d-flex justify-content-between align-items-center border-bottom py-4">
               <h4 className="total">Total</h4>
               <h5 className="total-price">₹{subTotal + shippingCost}</h5>
+              
             </div>
           </div>
         </div>

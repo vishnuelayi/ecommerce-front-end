@@ -6,15 +6,27 @@ import ProductCard from "../components/ProductCard";
 import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../features/products/productsSlice";
+import {
+  
+  getProductsOnQuery,
+} from "../features/products/productsSlice";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tagValue = queryParams.get("tag");
+
+  useEffect(() => {
+    dispatch(getProductsOnQuery(tagValue));
+  }, []);
 
   const productsState = useSelector((state) => state.products.products);
-  // console.log(productsState);
+  const productsQuery = useSelector((state) => state.products.productsQuery.item)
+  
 
   const [newBrand, setNewBrand] = useState([]);
   const [newCategory, setNewCategory] = useState([]);
@@ -31,8 +43,8 @@ const OurStore = () => {
 
     for (let index = 0; index < productsState?.length; index++) {
       const element = productsState[index];
-      brandSet.add(element?.brand);
-      categorySet.add(element?.category);
+      brandSet.add(element?.brand?.title);
+      categorySet.add(element?.category?.title);
       tagSet.add(element?.tag);
     }
 
@@ -42,13 +54,9 @@ const OurStore = () => {
     setNewTag([...tagSet]);
   }, [productsState]);
 
-  console.log(newBrand);
-  console.log(newCategory);
-  console.log(newTag);
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+  // console.log(newBrand);
+  // console.log(newCategory);
+  
 
   return (
     <>
@@ -205,7 +213,7 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                {productsState.map((item, index) => {
+                {productsQuery?.map((item, index) => {
                   return <ProductCard data={item} grid={grid} key={index} />;
                 })}
               </div>
