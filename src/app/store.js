@@ -10,4 +10,5 @@ export const store = configureStore({
     products:productReducer,
     blogs:blogReducer
   },
+  devTools:false
 });
