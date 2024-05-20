@@ -15,51 +15,35 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getUserFromLocalStorage = JSON.parse(localStorage.getItem("user"));
-  
 
- 
   const products = useSelector((state) => state?.products?.products);
-
 
   const [subTotal, setSubTotal] = useState(null);
   const [productOpt, setProductOpt] = useState([]);
-  const [logout, setLogout] = useState(false)
+  const [logout, setLogout] = useState(false);
   const [paginate, setPaginate] = useState(true);
-  const [cartLength, setCartLength] = useState(0)
-  
+  const [cartLength, setCartLength] = useState(0);
 
-
-
- 
- 
   const cartProducts = useSelector((state) => state?.products?.cartProducts);
-  
-  const cartStatus = useSelector((state) => state?.products)
+
+  const cartStatus = useSelector((state) => state?.products);
 
   useEffect(() => {
     if (getUserFromLocalStorage !== null) {
       dispatch(getCart());
-      
+    } else {
+      setSubTotal(0);
     }
-    else{
-      
-      setSubTotal(0)
-    }
-    
-
-   
-  }, [ logout]);
+  }, [logout]);
 
   useEffect(() => {
     dispatch(getProducts());
-  },[])
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogout(true)
+    setLogout(true);
   };
-
- 
 
   //for accumulating products into a new array for typehead
   useEffect(() => {
@@ -110,7 +94,9 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white" to="/">Creative.</Link>
+                <Link className="text-white" to="/">
+                  Creative.
+                </Link>
               </h2>
             </div>
             <div className="col-5">
@@ -256,53 +242,52 @@ const Header = () => {
                     >
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Music & Gaming
+                          Music & Gaming
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Camera
+                          Camera
                         </Link>
                       </li>
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Computers & Laptops
+                          Computers & Laptops
                         </Link>
                       </li>
 
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Smart Watches
+                          Smart Watches
                         </Link>
                       </li>
 
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Smartphones & Tablets
+                          Smartphones & Tablets
                         </Link>
                       </li>
 
                       <li>
-                        <Link className="dropdown-item text-white" to="/product">
-                        Audio & Headphones
-                        </Link>
-                      </li>
-
-                      
-                      <li>
-                        <Link className="dropdown-item text-white" to="">
-                        TV & Home Entertainment
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/product"
+                        >
+                          Audio & Headphones
                         </Link>
                       </li>
 
                       <li>
                         <Link className="dropdown-item text-white" to="">
-                        Drones & Accessories
+                          TV & Home Entertainment
                         </Link>
                       </li>
-                      
-                      
-                      
+
+                      <li>
+                        <Link className="dropdown-item text-white" to="">
+                          Drones & Accessories
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>

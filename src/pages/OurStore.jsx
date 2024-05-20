@@ -19,9 +19,10 @@ const OurStore = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tagValue = queryParams.get("tag");
+  const catValue = queryParams.get("category");
 
   useEffect(() => {
-    dispatch(getProductsOnQuery(tagValue));
+    dispatch(getProductsOnQuery({tag: tagValue, category: catValue,}));
   }, []);
 
   const productsState = useSelector((state) => state.products.products);

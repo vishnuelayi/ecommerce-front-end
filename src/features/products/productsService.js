@@ -204,17 +204,23 @@ const writeReview = async (data) => {
 
 
 const getProductsOnQuery = async (query) => {
+  const baseUrl = `${base_url}product/get`;
+  
   try {
-    const response = await axios.get(
-      `${base_url}product/get?tag=${query}`,
+    // Filter out null values from the query object
+    const filteredQuery = Object.keys(query)
+      .filter(key => query[key] !== null && query[key] !== undefined)
+      .map(key => `${key}=${encodeURIComponent(query[key])}`)
+      .join('&');
 
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const url = `${baseUrl}?${filteredQuery}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     console.log(response.data);
     return response.data;
