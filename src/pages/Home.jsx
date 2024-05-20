@@ -134,11 +134,13 @@ const Home = () => {
                   <h6>Music & Gaming</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/ps5f.jpg"
-                  alt="PlayStation 5"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Music & Gaming">
+                  <img
+                    src="images/ps5f.jpg"
+                    alt="PlayStation 5"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
 
               <div className="d-flex gap align-items-center">
@@ -146,73 +148,92 @@ const Home = () => {
                   <h6>Cameras</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/cameranew.jpg"
-                  alt="Camera"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=camera">
+                  <img
+                    src="images/cameranew.jpg"
+                    alt="Camera"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Computers & Laptops</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/laptopnew.jpg"
-                  alt="Laptop"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Computers & Laptops">
+                  <img
+                    src="images/laptopnew.jpg"
+                    alt="Laptop"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Smart Watches</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/smartwatchnew.jpg"
-                  alt="Smartwatch"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Smart Watch">
+                  <img
+                    src="images/smartwatchnew.jpg"
+                    alt="Smartwatch"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Smartphones & Tablets</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/smartphonenew.jpg"
-                  alt="smarphone"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Smartphone & Tablets">
+                  <img
+                    src="images/smartphonenew.jpg"
+                    alt="smarphone"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Audio & Headphones</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/headphonenew.jpg"
-                  alt="Headphones"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Audio & Headphones">
+                  <img
+                    src="images/headphonenew.jpg"
+                    alt="Headphones"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
+
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>TV & Home Entertainment</h6>
                   <p>10 Items</p>
                 </div>
-                <img src="images/tv.jpg" alt="Tv" />
+                <Link to="/product?category=TV & Home Entertainment">
+                  <img src="images/tv.jpg" alt="Tv" />
+                </Link>
               </div>
               <div className="d-flex gap align-items-center">
                 <div>
                   <h6>Drones & Accessories</h6>
                   <p>10 Items</p>
                 </div>
-                <img
-                  src="images/dronenew.jpg"
-                  alt="Drone"
-                  style={{ width: "100px" }}
-                />
+                <Link to="/product?category=Drones & Accessories">
+                  <img
+                    src="images/dronenew.jpg"
+                    alt="Drone"
+                    style={{ width: "100px" }}
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -229,7 +250,7 @@ const Home = () => {
             </Link>
           </div>
           {productState.map((item, index) => {
-            if (index > 4) {
+            if (index < 4) {
               return <ProductCard data={item} key={index} />;
             }
           })}
@@ -238,8 +259,8 @@ const Home = () => {
 
       <Container class1="famous-wrapper py-5 home-wrapper-2">
         <div className="row">
-        <div className="col-12 ">
-           <span className="p-2 mb-1 border rounded">sponsored</span>
+          <div className="col-12 ">
+            <span className="p-2 mb-1 border rounded">sponsored</span>
           </div>
           <div className="col-3">
             <div className="famous-card position-relative">
@@ -343,7 +364,7 @@ const Home = () => {
         </div>
         <div className="row">
           {productState.map((item, index) => {
-            if (index > 4) {
+            if (index < 4) {
               return <ProductCard data={item} key={index} />;
             }
           })}
